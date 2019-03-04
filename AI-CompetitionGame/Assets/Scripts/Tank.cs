@@ -31,22 +31,26 @@ public class Tank : MonoBehaviour, ITank
         Turn();
     }
 
+    // Returns the current health of the tank
     public float GetHealth()
     {
         return 0;
     }
 
+    // Applie an specified amount of damage to the tank
     public void TakeDamage(float damage)
     {
 
     }
 
+    // The tanks moves either forward or backwards
     public void Move()
     {
         Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
+    // The tank rotates to the right or to the left
     public void Turn()
     {
         float turn = turnInputValue * turnSpeed * Time.deltaTime;
@@ -54,21 +58,25 @@ public class Tank : MonoBehaviour, ITank
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 
+    // Rotates the direction the turret is aiming
     public void TurnTurret()
     {
 
     }
 
+    // Instantiates and fires a bullet
     public void Fire()
     {
 
     }
 
+    // Changes the type of ammo the tank is shooting
     public void ChangeAmmo()
     {
 
     }
 
+    // Checks the surface in order to recognice the terrain and move
     public void CheckSurface()
     {
 
