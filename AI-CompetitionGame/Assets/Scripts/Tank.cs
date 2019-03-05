@@ -4,31 +4,59 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour, ITank
 {
-    public float speed = 12f;               // Movement speed of the tank.
+    // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
     public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
+    
 
+    // movement
+    public float speed = 12f;               // Movement speed of the tank.
     private Rigidbody m_Rigidbody;
     private float movementInputValue;
     private float turnInputValue;
 
+    // object detection
+    public float heightMultiplier;          // Y Offset for the sight
+    public float centerSightDist;           // The range of the AI sight
+    public float outerSightDist;
+    private bool obstacleLeft = false;
+    private bool obstacleRight = false;
+    private bool obstacleAhead = false;
+    public float stoppingDist;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        movementInputValue = 1;
+        turnInputValue = 0;
         m_Rigidbody = GetComponent<Rigidbody> ();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        movementInputValue = Input.GetAxis("Vertical");
-        turnInputValue = Input.GetAxis("Horizontal");
+        
+        if (obstacleLeft)
+            turnInputValue = 1;
+        if (obstacleRight)
+            turnInputValue = -1;
+        
+        if (obstacleRight && obstacleLeft)
+            turnInputValue = 1;
+        if(!obstacleAhead && !obstacleLeft && !obstacleRight)
+        {
+            movementInputValue = 1;
+            turnInputValue = 0;
+        }
+        
     }
 
     private void FixedUpdate()
     {
         Move();
         Turn();
+        CheckSurface();
     }
 
     // Returns the current health of the tank
@@ -79,6 +107,61 @@ public class Tank : MonoBehaviour, ITank
     // Checks the surface in order to recognice the terrain and move
     public void CheckSurface()
     {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.green); 
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green); 
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
+        
+        if(Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
+        {
+            if(hit.collider.gameObject.tag == "Environment")
+            {
+                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
+
+                //Debug.Log("Tank: Terrain is blocking my way upfront");
+                obstacleAhead = true;
+                float distance = stoppingDist - hit.distance;
+                Debug.Log(distance);
+                if(distance > 0)
+                {
+                    movementInputValue = 0;
+                    turnInputValue = 1;
+                }
+            } 
+        }
+        else
+        {
+            obstacleAhead = false;
+        }
+        
+
+
+
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
+        {
+            if (hit.collider.gameObject.tag == "Environment")
+            {
+                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.red);
+                //Debug.Log("Tank: Terrain is blocking my way on the right");
+                obstacleRight = true;
+            }
+
+        }
+        else
+            obstacleRight = false;
+
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right), out hit, outerSightDist))
+        {
+            if (hit.collider.gameObject.tag == "Environment")
+            {
+                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.red);
+                //Debug.Log("Tank: Terrain is blocking my way on the left");
+                obstacleLeft = true;
+            }
+        }
+        else
+            obstacleLeft = false;
+        
 
     }
 }
