@@ -738,6 +738,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PalmTreeTrioTwoSided (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 137888, guid: ecc2762d91d3584429565bde5fbede9e, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 437888, guid: ecc2762d91d3584429565bde5fbede9e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 72.28991
@@ -883,6 +887,10 @@ PrefabInstance:
     - target: {fileID: 137888, guid: ecc2762d91d3584429565bde5fbede9e, type: 3}
       propertyPath: m_Name
       value: PalmTreeTrioTwoSided
+      objectReference: {fileID: 0}
+    - target: {fileID: 137888, guid: ecc2762d91d3584429565bde5fbede9e, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 437888, guid: ecc2762d91d3584429565bde5fbede9e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1997,6 +2005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PalmTreeDualStraightTwoSided
       objectReference: {fileID: 0}
+    - target: {fileID: 131444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 431444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
       propertyPath: m_LocalPosition.x
       value: 64.089905
@@ -2061,6 +2073,10 @@ PrefabInstance:
     - target: {fileID: 131444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
       propertyPath: m_Name
       value: PalmTreeDualStraightTwoSided (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 131444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 431444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2195,6 +2211,10 @@ PrefabInstance:
     - target: {fileID: 131444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
       propertyPath: m_Name
       value: PalmTreeDualStraightTwoSided (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 131444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 431444, guid: 5e617e90ac28ce7488be6a63235b1f32, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2410,6 +2430,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27bfdb9a40efac94b969eaf77cea92d9, type: 3}
+--- !u!1 &1509708189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 6aa57bfda41ae3b42939c6e473425948,
+    type: 3}
+  m_PrefabInstance: {fileID: 1049476518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1509708192
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509708189}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.195344, y: 11.64114, z: 5.1008124}
+  m_Center: {x: -0.0000038146973, y: 0.014315844, z: 2.5079262}
 --- !u!1001 &1563144254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2420,6 +2459,10 @@ PrefabInstance:
     - target: {fileID: 118788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
       propertyPath: m_Name
       value: PalmTreeSingleBendedTwoSided
+      objectReference: {fileID: 0}
+    - target: {fileID: 118788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 418788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2481,6 +2524,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1329383772}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1600016288 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 6aa57bfda41ae3b42939c6e473425948,
+    type: 3}
+  m_PrefabInstance: {fileID: 1377745142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1600016291
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600016288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.195344, y: 11.641143, z: 5.100814}
+  m_Center: {x: 0.0000000010948539, y: 0.01432343, z: 2.507927}
 --- !u!1 &1600918831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2493,6 +2555,7 @@ GameObject:
   - component: {fileID: 1600918834}
   - component: {fileID: 1600918833}
   - component: {fileID: 1600918832}
+  - component: {fileID: 1600918836}
   m_Layer: 0
   m_Name: Tank (1)
   m_TagString: Untagged
@@ -2564,6 +2627,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1600918836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600918831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49e16707499e054295cade5ff787b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shell: {fileID: 1600918834}
+  fireTransform: {fileID: 0}
+  speed: 0
+  cooldown: 0
 --- !u!1001 &1608474776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2721,6 +2800,10 @@ PrefabInstance:
     - target: {fileID: 118788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
       propertyPath: m_Name
       value: PalmTreeSingleBendedTwoSided (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 118788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 418788, guid: 8d67c8074b567ec459905d65232f7154, type: 3}
       propertyPath: m_LocalPosition.x

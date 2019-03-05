@@ -125,7 +125,7 @@ public class Tank : MonoBehaviour, ITank
                 if(distance > 0)
                 {
                     movementInputValue = 0;
-                    turnInputValue = 1;
+                    turnInputValue = 3;
                 }
             } 
         }
@@ -134,8 +134,6 @@ public class Tank : MonoBehaviour, ITank
             obstacleAhead = false;
         }
         
-
-
 
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
         {
