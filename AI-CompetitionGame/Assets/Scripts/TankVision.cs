@@ -22,7 +22,7 @@ public class TankVision : MonoBehaviour
     {
         if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
         {
-            if (hit.collider.gameObject.tag == "Enviroment")
+            if (hit.collider.gameObject.tag == "Environment")
             {
                 Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
                 return true;
@@ -36,7 +36,7 @@ public class TankVision : MonoBehaviour
     {
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
         {
-            if (hit.collider.gameObject.tag == "Enviroment")
+            if (hit.collider.gameObject.tag == "Environment")
             {
                 Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.red);
                 return true;            

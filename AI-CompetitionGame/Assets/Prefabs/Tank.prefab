@@ -196,7 +196,6 @@ MonoBehaviour:
   heightMultiplier: 2.88
   centerSightDist: 10
   outerSightDist: 10
-  stoppingDist: 0
 --- !u!1 &1043270149321413380
 GameObject:
   m_ObjectHideFlags: 0
