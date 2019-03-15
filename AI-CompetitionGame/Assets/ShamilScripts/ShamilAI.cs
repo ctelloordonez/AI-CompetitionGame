@@ -133,15 +133,17 @@ public class ShamilAI : MonoBehaviour, ITank
         Vector3 right = transform.TransformDirection(Vector3.right) * raycastLength;
         Vector3 back = transform.TransformDirection(Vector3.back) * raycastLength;
 
+
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * raycastLength, Color.green);
+      
 
         if (Physics.Raycast(transform.position + Vector3.up * 3, transform.forward, out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
-                print(distanceToObject + " " + hit.collider.gameObject.name);
+                Debug.Log(distanceToObject + " " + hit.collider.gameObject.name);
 
                 //Debug.Log("Tank: Terrain is blocking my way upfront");
                 obstacleAhead = true;
