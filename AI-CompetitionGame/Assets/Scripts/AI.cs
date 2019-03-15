@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class AI : MonoBehaviour{
 
+
     public float LookRadius = 10f;
 
     Transform target;
@@ -38,7 +39,20 @@ public class AI : MonoBehaviour{
         if (distance <= LookRadius)
         {
             agent.SetDestination(target.position); 
+
+            if (distance <= agent.stoppingDistance)
+            {
+                // attack player
+                FaceTarget();
+            }
         }
+    }
+
+    void FaceTarget()
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
     private void OnDrawGizmosSelected()
