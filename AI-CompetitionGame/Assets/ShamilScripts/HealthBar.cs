@@ -19,15 +19,5 @@ public class HealthBar : MonoBehaviour
     {
         healthBar.fillAmount = health / maxHealth;
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == " Shell")
-        {
-            health -= 10f;
-        }
-    }
-
-   
    
 }

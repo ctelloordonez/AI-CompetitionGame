@@ -23,11 +23,13 @@ public class Tank : MonoBehaviour, ITank
     private bool obstacleRight = false;
     private bool obstacleAhead = false;
     public float stoppingDist;
+    private float distanceToObject;
 
 
     // Start is called before the first frame update
     void Start()
     {
+       
         movementInputValue = 1;
         turnInputValue = 0;
         m_Rigidbody = GetComponent<Rigidbody> ();   
@@ -49,6 +51,7 @@ public class Tank : MonoBehaviour, ITank
             movementInputValue = 1;
             turnInputValue = 0;
         }
+
         
     }
 

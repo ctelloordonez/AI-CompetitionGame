@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ShamilAI : MonoBehaviour, ITank
 {
 
-   
-       
-
-
     // movement vars
-    public float speed = 12f;             
-    private Rigidbody m_Rigidbody;
+    public float speed;             
+    private Rigidbody rb;
     private float movementInputValue;
     private float turnInputValue;
     public float turnSpeed;          
-    public float turnTurretSpeed;
+   
 
     // rycst vars
-
+    RaycastHit hit;
     public float centerSightDist;           
     public float outerSightDist;
     public float stoppingDist;
     private float distanceToObject;
+    public float raycastLength;
 
     //ostcls vars
     private bool obstacleLeft;
@@ -47,7 +45,7 @@ public class ShamilAI : MonoBehaviour, ITank
     {
         movementInputValue = 1;
         turnInputValue = 0;
-        m_Rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -95,7 +93,7 @@ public class ShamilAI : MonoBehaviour, ITank
     public void Move()
     {
         Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
-        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        rb.MovePosition(rb.position + movement);
     }
 
     // The tank rotates to the right or to the left
@@ -103,7 +101,7 @@ public class ShamilAI : MonoBehaviour, ITank
     {
         float turn = turnInputValue * turnSpeed * Time.deltaTime;
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
+        rb.MoveRotation(rb.rotation * turnRotation);
     }
 
     // Rotates the direction the turret is aiming
@@ -125,16 +123,21 @@ public class ShamilAI : MonoBehaviour, ITank
     {
 
     }
+    
 
     // Checks the surface in order to recognice the terrain and move
     public void CheckSurface()
     {
-        RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * centerSightDist, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * outerSightDist, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * outerSightDist, Color.green);
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastLength;
+        Vector3 left = transform.TransformDirection(Vector3.left) * raycastLength;
+        Vector3 right = transform.TransformDirection(Vector3.right) * raycastLength;
+        Vector3 back = transform.TransformDirection(Vector3.back) * raycastLength;
 
-        if (Physics.Raycast(transform.position + Vector3.up * 3, transform.forward, out hit, centerSightDist))
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * raycastLength, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * raycastLength, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * raycastLength, Color.green);
+
+        if (Physics.Raycast(transform.position + Vector3.up * 3, transform.forward, out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
@@ -153,6 +156,7 @@ public class ShamilAI : MonoBehaviour, ITank
             {
                 Fire();
                 enemyTankAhead = true;
+                HealthBar.health -= 10f; //it is a damage function, will be improved once more changes are applied to script;
             }
         }
         else
@@ -163,7 +167,7 @@ public class ShamilAI : MonoBehaviour, ITank
 
 
 
-        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right), out hit, outerSightDist))
+        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right), out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
@@ -182,7 +186,7 @@ public class ShamilAI : MonoBehaviour, ITank
         else
             obstacleRight = false;
 
-        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right), out hit, outerSightDist))
+        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right), out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
