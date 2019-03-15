@@ -3479,6 +3479,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 1043270149321413378, guid: 41a8a06cea6eefc47872a96a1f219907,
+        type: 3}
+      propertyPath: m_TagString
+      value: Tank
+      objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4772,6 +4777,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551751359247064915, guid: ec8f290f971da28438070555c17c4bcc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551751359247064915, guid: ec8f290f971da28438070555c17c4bcc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 31.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec8f290f971da28438070555c17c4bcc, type: 3}

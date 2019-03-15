@@ -159,7 +159,5 @@ public class Tank : MonoBehaviour, ITank
         }
         else
             obstacleLeft = false;
-        
-
     }
 }
