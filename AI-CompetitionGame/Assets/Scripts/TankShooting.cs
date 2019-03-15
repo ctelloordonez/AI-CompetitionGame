@@ -9,7 +9,6 @@ public class TankShooting : MonoBehaviour
     public float speed;
     public float cooldown;
 
-    private bool fired;
     private float timeShot;
 
     // Start is called before the first frame update
@@ -34,7 +33,6 @@ public class TankShooting : MonoBehaviour
 
     private void Fire()
     {
-        fired = true;
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
         shellInstance.velocity = speed * fireTransform.forward;
         timeShot = cooldown;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TankVision : MonoBehaviour
 {
-    public float heightMultiplier;
-    public float centerSightDist;
+    public float heightMultiplier;      // y Offset for the sight
+    public float centerSightDist;       // The range of the AI sight
     public float outerSightDist;
 
     private RaycastHit hit;
@@ -17,6 +17,41 @@ public class TankVision : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green); 
         Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
     }
+
+    public string ObstacleAhead()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
+        {
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
+        }
+
+        return null;
+    }
+
+    public string ObstacleLeft()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right), out hit, outerSightDist))
+        {
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
+        }
+
+        return null;
+    }
+
+    public string ObstacleRight()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
+        {
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
+        }
+
+        return null;
+    }
+
+
 
     public bool CheckAhead()
     {
