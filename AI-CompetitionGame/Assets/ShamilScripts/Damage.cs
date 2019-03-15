@@ -8,7 +8,7 @@ public class Damage : MonoBehaviour
     {
        if(collision.gameObject.name == "Shell")
         {
-            HealthBar.health -= 20f;
+            HealthBar.health =- 10f;
         }
     }
 }

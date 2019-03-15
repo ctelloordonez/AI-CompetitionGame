@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShamilAI : MonoBehaviour, ITank
+public class ShamilAI : MonoBehaviour
 {
      
     // movement vars
@@ -72,17 +72,7 @@ public class ShamilAI : MonoBehaviour, ITank
        
     }
 
-    // Returns the current health of the tank
-    public float GetHealth()
-    {
-        return 0;
-    }
-
-    // Applie an specified amount of damage to the tank
-    public void TakeDamage(float damage)
-    {
-
-    }
+   
 
     // The tanks moves either forward or backwards
     public void Move()
@@ -99,11 +89,7 @@ public class ShamilAI : MonoBehaviour, ITank
         rb.MoveRotation(rb.rotation * turnRotation);
     }
 
-    // Rotates the direction the turret is aiming
-    public void TurnTurret()
-    {
-
-    }
+    
 
     // Instantiates and fires a bullet
     public void Fire()
@@ -114,11 +100,6 @@ public class ShamilAI : MonoBehaviour, ITank
         timeShot = timeInBetween;
     }
 
-    // Changes the type of ammo the tank is shooting
-    public void ChangeAmmo()
-    {
-
-    }
 
     // Checks the surface in order to recognice the terrain and move
     public void CheckSurface()
