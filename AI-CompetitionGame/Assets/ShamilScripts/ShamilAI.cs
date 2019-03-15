@@ -2,40 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShamilAI : MonoBehaviour
+public class ShamilAI : MonoBehaviour, ITank
 {
-     
+
+   
+       
+
+
     // movement vars
-    public float tankMoveSpeed;             
-    private Rigidbody rb;
+    public float speed = 12f;             
+    private Rigidbody m_Rigidbody;
     private float movementInputValue;
     private float turnInputValue;
-    public float tankRotSpeed;
+    public float turnSpeed;          
+    public float turnTurretSpeed;
 
-    // raycast vars
-    RaycastHit hit;
-    public float raycastLength;
+    // rycst vars
+
+    public float centerSightDist;           
+    public float outerSightDist;
     public float stoppingDist;
     private float distanceToObject;
 
-    //obstacle vars
-    private bool obstacleLeft = false;
-    private bool obstacleRight = false;
-    private bool obstacleAhead = false;
+    //ostcls vars
+    private bool obstacleLeft;
+    private bool obstacleRight;
+    private bool obstacleAhead;
+    private bool enemyTankAhead;
+    private bool enemyTankRight;
+    private bool enemyTankLeft;
+
 
     //fire vars
     public Rigidbody shell;
     public Transform fireTransform;
-    public float speed;
+    public float shellSpeed;
     public float timeInBetween;
     private float timeShot;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        timeShot = 0;
-        rb = GetComponent<Rigidbody>();
+        movementInputValue = 1;
+        turnInputValue = 0;
+        m_Rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -47,6 +59,8 @@ public class ShamilAI : MonoBehaviour
         if (obstacleRight)
             turnInputValue = -1;
 
+        if (obstacleRight && obstacleLeft)
+            turnInputValue = 1;
         if (!obstacleAhead && !obstacleLeft && !obstacleRight)
         {
             movementInputValue = 1;
@@ -56,12 +70,6 @@ public class ShamilAI : MonoBehaviour
         {
             timeShot -= Time.deltaTime;
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.B))
-        {                                      // written to check if the function works
-            Fire();
-        }
-        */
     }
 
     private void FixedUpdate()
@@ -69,66 +77,72 @@ public class ShamilAI : MonoBehaviour
         Move();
         Turn();
         CheckSurface();
-       
     }
 
-   
+    // Returns the current health of the tank
+    public float GetHealth()
+    {
+        return 0;
+    }
+
+    // Applie an specified amount of damage to the tank
+    public void TakeDamage(float damage)
+    {
+
+    }
 
     // The tanks moves either forward or backwards
     public void Move()
     {
-        Vector3 movement = transform.forward * movementInputValue * tankMoveSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + movement);
+        Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
+        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
     // The tank rotates to the right or to the left
     public void Turn()
     {
-        float turn = turnInputValue * tankRotSpeed * Time.deltaTime;
+        float turn = turnInputValue * turnSpeed * Time.deltaTime;
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-        rb.MoveRotation(rb.rotation * turnRotation);
+        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 
-    
+    // Rotates the direction the turret is aiming
+    public void TurnTurret()
+    {
+
+    }
 
     // Instantiates and fires a bullet
     public void Fire()
     {
-
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
-        shellInstance.velocity = speed * fireTransform.forward;
+        shellInstance.velocity = shellSpeed * fireTransform.forward;
         timeShot = timeInBetween;
     }
 
+    // Changes the type of ammo the tank is shooting
+    public void ChangeAmmo()
+    {
+
+    }
 
     // Checks the surface in order to recognice the terrain and move
     public void CheckSurface()
     {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * centerSightDist, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * outerSightDist, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * outerSightDist, Color.green);
 
-        Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastLength;
-        Vector3 left = transform.TransformDirection(Vector3.left) * raycastLength;
-        Vector3 right = transform.TransformDirection(Vector3.right) * raycastLength;
-        Vector3 back = transform.TransformDirection(Vector3.back) * raycastLength;
-
-        Debug.DrawRay(transform.position + Vector3.up * 3, (forward) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (forward + right) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (forward - right) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (back) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (back + right) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (back - right) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (right) * raycastLength, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 3, (left) * raycastLength, Color.green);
-
-
-
-        if (Physics.Raycast(transform.position + Vector3.up * 3, (forward), out hit, raycastLength))
+        if (Physics.Raycast(transform.position + Vector3.up * 3, transform.forward, out hit, centerSightDist))
         {
-
             if (hit.collider.gameObject.tag == "Environment")
             {
+                print(distanceToObject + " " + hit.collider.gameObject.name);
+
+                //Debug.Log("Tank: Terrain is blocking my way upfront");
                 obstacleAhead = true;
                 float distance = stoppingDist - hit.distance;
-                print(distanceToObject + " " + hit.collider.gameObject.name);
                 if (distance > 0)
                 {
                     movementInputValue = 0;
@@ -138,6 +152,7 @@ public class ShamilAI : MonoBehaviour
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankAhead = true;
             }
         }
         else
@@ -145,32 +160,40 @@ public class ShamilAI : MonoBehaviour
             obstacleAhead = false;
         }
 
-        if (Physics.Raycast(transform.position + Vector3.up * 3, (forward + right), out hit, raycastLength))
+
+
+
+        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right), out hit, outerSightDist))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
-
+                
+                print(distanceToObject + " " + hit.collider.gameObject.name);
+                //Debug.Log("Tank: Terrain is blocking my way on the right");
                 obstacleRight = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankRight = true;
             }
 
         }
         else
             obstacleRight = false;
 
-        if (Physics.Raycast(transform.position + Vector3.up * 3, (forward - right), out hit, raycastLength))
+        if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right), out hit, outerSightDist))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
-
+                print(distanceToObject + " " + hit.collider.gameObject.name);
+                //Debug.Log("Tank: Terrain is blocking my way on the left");
                 obstacleLeft = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankLeft = true;
             }
         }
         else
@@ -179,3 +202,4 @@ public class ShamilAI : MonoBehaviour
 
     }
 }
+

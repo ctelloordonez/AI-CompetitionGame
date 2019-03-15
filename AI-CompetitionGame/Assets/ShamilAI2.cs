@@ -119,9 +119,10 @@ public class ShamilAI2 : MonoBehaviour
                     turnInputValue = 1;
                 }
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+            else if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankAhead = true;
             }
         }
         else
@@ -136,9 +137,10 @@ public class ShamilAI2 : MonoBehaviour
 
                 obstacleRight = true;
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+            else  if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankRigt = true;
             }
 
         }
@@ -152,9 +154,10 @@ public class ShamilAI2 : MonoBehaviour
 
                 obstacleLeft = true;
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+           else if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                 Fire();
+                enemyTankLeft = true;
             }
         }
         else

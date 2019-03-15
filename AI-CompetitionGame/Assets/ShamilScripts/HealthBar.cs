@@ -14,10 +14,20 @@ public class HealthBar : MonoBehaviour
         healthBar = GetComponent<Image>();
         health = maxHealth;
     }
-
     // Update is called once per frame
     void Update()
     {
         healthBar.fillAmount = health / maxHealth;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == " Shell")
+        {
+            health -= 10f;
+        }
+    }
+
+   
+   
 }
