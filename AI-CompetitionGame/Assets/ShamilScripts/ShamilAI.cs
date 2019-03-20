@@ -38,6 +38,13 @@ public class ShamilAI : MonoBehaviour, ITank
     public float timeInBetween;
     private float timeShot;
 
+    /*
+    //turret rotation vars
+    public float turretRotSpeed;
+    private bool turnLeft;
+    private bool turnRight;
+    public TurretRotation turretRot;
+    */
 
 
     // Start is called before the first frame update
@@ -109,6 +116,16 @@ public class ShamilAI : MonoBehaviour, ITank
     {
 
     }
+    /*
+    public void TurretTurnRight()
+    {
+        turnRight = true;
+    }
+    public void TurretTurnLeft()
+    {
+        turnLeft = true;
+    }
+    */
 
     // Instantiates and fires a bullet
     public void Fire()
@@ -156,9 +173,11 @@ public class ShamilAI : MonoBehaviour, ITank
             }
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
-                Fire();
+                //Fire();
                 enemyTankAhead = true;
                 HealthBar.health -= 10f; //it is a damage function, will be improved once more changes are applied to script;
+             
+
             }
         }
         else
@@ -178,11 +197,19 @@ public class ShamilAI : MonoBehaviour, ITank
                 //Debug.Log("Tank: Terrain is blocking my way on the right");
                 obstacleRight = true;
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+            if (hit.collider.gameObject.tag == "EnemyTank")
             {
-                Fire();
+           
                 enemyTankRight = true;
+               
+                //speed = 0;
             }
+            /*
+            else if(hit.collider == null)
+            {
+                speed = 12;
+            }
+            */
 
         }
         else
@@ -196,11 +223,19 @@ public class ShamilAI : MonoBehaviour, ITank
                 //Debug.Log("Tank: Terrain is blocking my way on the left");
                 obstacleLeft = true;
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+            if (hit.collider.gameObject.tag == "EnemyTank")
             {
-                Fire();
+               
                 enemyTankLeft = true;
+               
+               // speed = 0;
             }
+            /*
+            else if(enemyTankLeft = false)
+            {
+                speed = 12;
+            }
+            */
         }
         else
             obstacleLeft = false;
