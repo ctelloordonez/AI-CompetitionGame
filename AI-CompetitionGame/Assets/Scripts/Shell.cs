@@ -10,7 +10,7 @@ public class Shell : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, lifeTime);
+       // Destroy(gameObject, lifeTime);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +22,6 @@ public class Shell : MonoBehaviour
             target.TakeDamage(damage);
         }
 
-        Destroy(gameObject);
+       // Destroy(gameObject);
     }
 }

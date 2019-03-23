@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ShamilAI : MonoBehaviour, ITank
@@ -38,13 +39,11 @@ public class ShamilAI : MonoBehaviour, ITank
     public float timeInBetween;
     private float timeShot;
 
-    /*
-    //turret rotation vars
-    public float turretRotSpeed;
-    private bool turnLeft;
-    private bool turnRight;
-    public TurretRotation turretRot;
-    */
+    // Player health vars
+    public int tankHealth = 100;
+    public int damage = 10;
+
+  
 
 
     // Start is called before the first frame update
@@ -53,6 +52,7 @@ public class ShamilAI : MonoBehaviour, ITank
         movementInputValue = 1;
         turnInputValue = 0;
         rb = GetComponent<Rigidbody>();
+        Debug.Log(tankHealth);
     }
 
     // Update is called once per frame
@@ -90,9 +90,11 @@ public class ShamilAI : MonoBehaviour, ITank
         return 0;
     }
 
-    // Applie an specified amount of damage to the tank
+    // Apply an specified amount of damage to the tank
     public void TakeDamage(float damage)
     {
+        //used different function
+       
 
     }
 
@@ -114,18 +116,21 @@ public class ShamilAI : MonoBehaviour, ITank
     // Rotates the direction the turret is aiming
     public void TurnTurret()
     {
+        //different script used for this function and attached to turret. 
+    }
 
-    }
-    /*
-    public void TurretTurnRight()
+
+    //tank damage function
+    private void OnTriggerEnter(Collider collision)
     {
-        turnRight = true;
+        if (collision.gameObject.name == "Shell")
+        {
+            tankHealth -= damage;
+            Debug.Log(tankHealth);
+            HealthBar.health -= 10f;
+        }
     }
-    public void TurretTurnLeft()
-    {
-        turnLeft = true;
-    }
-    */
+ 
 
     // Instantiates and fires a bullet
     public void Fire()
@@ -142,7 +147,7 @@ public class ShamilAI : MonoBehaviour, ITank
     }
     
 
-    // Checks the surface in order to recognice the terrain and move
+   //AI obstacle check with raycast
     public void CheckSurface()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastLength;
@@ -161,8 +166,6 @@ public class ShamilAI : MonoBehaviour, ITank
             if (hit.collider.gameObject.tag == "Environment")
             {
                 Debug.Log(distanceToObject + " " + hit.collider.gameObject.name);
-
-                //Debug.Log("Tank: Terrain is blocking my way upfront");
                 obstacleAhead = true;
                 float distance = stoppingDist - hit.distance;
                 if (distance > 0)
@@ -173,9 +176,9 @@ public class ShamilAI : MonoBehaviour, ITank
             }
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
-                //Fire();
+               
                 enemyTankAhead = true;
-                HealthBar.health -= 10f; //it is a damage function, will be improved once more changes are applied to script;
+               // HealthBar.health -= 10f; //it is a damage function, will be improved once more changes are applied to script;
              
 
             }
@@ -202,25 +205,19 @@ public class ShamilAI : MonoBehaviour, ITank
            
                 enemyTankRight = true;
                
-                //speed = 0;
+               
             }
-            /*
-            else if(hit.collider == null)
-            {
-                speed = 12;
-            }
-            */
-
         }
         else
             obstacleRight = false;
+
+
 
         if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right), out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
                 print(distanceToObject + " " + hit.collider.gameObject.name);
-                //Debug.Log("Tank: Terrain is blocking my way on the left");
                 obstacleLeft = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank")
@@ -228,18 +225,12 @@ public class ShamilAI : MonoBehaviour, ITank
                
                 enemyTankLeft = true;
                
-               // speed = 0;
+               
             }
-            /*
-            else if(enemyTankLeft = false)
-            {
-                speed = 12;
-            }
-            */
+           
         }
         else
             obstacleLeft = false;
-
 
     }
 }
