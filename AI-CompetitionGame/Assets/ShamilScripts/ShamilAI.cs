@@ -23,7 +23,7 @@ public class ShamilAI : MonoBehaviour, ITank
     private float distanceToObject;
     public float raycastLength;
 
-    //ostcls vars
+    //obstacls vars
     private bool obstacleLeft;
     private bool obstacleRight;
     private bool obstacleAhead;
@@ -43,12 +43,14 @@ public class ShamilAI : MonoBehaviour, ITank
     public int tankHealth = 100;
     public int damage = 10;
 
+   
   
 
 
     // Start is called before the first frame update
     void Start()
     {
+       
         movementInputValue = 1;
         turnInputValue = 0;
         rb = GetComponent<Rigidbody>();
@@ -120,10 +122,10 @@ public class ShamilAI : MonoBehaviour, ITank
     }
 
 
-    //tank damage function
+    //tank take damage function
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.name == "Shell")
+        if (collision.gameObject.tag == "Shell")
         {
             tankHealth -= damage;
             Debug.Log(tankHealth);
@@ -190,7 +192,6 @@ public class ShamilAI : MonoBehaviour, ITank
 
 
 
-
         if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right), out hit, raycastLength))
         {
             if (hit.collider.gameObject.tag == "Environment")
@@ -221,11 +222,8 @@ public class ShamilAI : MonoBehaviour, ITank
                 obstacleLeft = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank")
-            {
-               
-                enemyTankLeft = true;
-               
-               
+            {              
+                enemyTankLeft = true;   
             }
            
         }

@@ -20,10 +20,16 @@ public class TurretRotation : MonoBehaviour
     public Rigidbody shell;
     public Transform fireTransform;
     public float shellSpeed;
-    public float timeInBetween;
+    public float shellCooldown;
     private float timeShot;
 
 
+    public Rigidbody bullet;
+    public float bulletSpeed;
+    public float bulletCooldown;
+    private float timeShotBullet;
+
+   
 
     public void Update()
     {
@@ -31,18 +37,31 @@ public class TurretRotation : MonoBehaviour
         {
             timeShot -= Time.deltaTime;
         }
+        if (timeShotBullet > 0)
+        {
+            timeShotBullet -= Time.deltaTime;
+        }
+
     }
 
-    public void Fire()
+    public void FireShell()
     {
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
         shellInstance.velocity = shellSpeed * fireTransform.forward;
-        timeShot = timeInBetween;
+        timeShot = shellCooldown;
     }
+    public void FireBullet()
+    {
+        Rigidbody bulletInstance = Instantiate(bullet, fireTransform.position, fireTransform.rotation);
+        bulletInstance.velocity = bulletSpeed * fireTransform.forward;
+        timeShotBullet = bulletCooldown;
+    }
+
+
 
     public void RotateLeft()
     {
-        if (left = true)
+        if (left)
         {
             transform.Rotate(0, -rotSpeed, 0);
             left = true;
@@ -51,7 +70,7 @@ public class TurretRotation : MonoBehaviour
 
     public void RotateRight()
     {
-        if (right = true)
+        if (right)
         {
             transform.Rotate(0, rotSpeed, 0);
             right = true;
@@ -76,9 +95,25 @@ public class TurretRotation : MonoBehaviour
         Vector3 left = transform.TransformDirection(Vector3.left) * raycastLength;
         Vector3 right = transform.TransformDirection(Vector3.right) * raycastLength;
        
-        Debug.DrawRay(transform.position + Vector3.up * 1.7f, (transform.forward + transform.right) * raycastLength, Color.yellow);
-        Debug.DrawRay(transform.position + Vector3.up * 1.7f, (transform.forward - transform.right) * raycastLength, Color.yellow);
+        Debug.DrawRay(transform.position + Vector3.up * 1.7f, (transform.forward + transform.right) * raycastLength, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up * 1.7f, (transform.forward - transform.right) * raycastLength, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up * 1.7f, transform.forward * raycastLength, Color.red);
 
+
+        if (Physics.Raycast(transform.position + Vector3.up * 1.7f, transform.forward, out hit, raycastLength))
+        {
+
+            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
+            {
+
+                FireShell();
+               
+            }
+            if(hit.collider.gameObject.tag == "EnemyTank" && timeShotBullet <=0)
+            {
+                FireBullet();
+            }
+        }
 
         if (Physics.Raycast(transform.position + Vector3.up * 1.7f, (transform.forward + transform.right), out hit, raycastLength))
         {
@@ -88,9 +123,13 @@ public class TurretRotation : MonoBehaviour
 
                 if(hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
                 {
-                    Fire();
+                    FireShell();
+                    FireBullet();
                 }
-
+                if (hit.collider.gameObject.tag == "EnemyTank" && timeShotBullet <= 0)
+                {
+                    FireBullet();
+                }
                 RotateRight();
                 Debug.Log("rightTank");
                 
@@ -105,7 +144,11 @@ public class TurretRotation : MonoBehaviour
 
                 if(hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
                 {
-                    Fire();
+                    FireShell();
+                }
+                if (hit.collider.gameObject.tag == "EnemyTank" && timeShotBullet <= 0)
+                {
+                    FireBullet();
                 }
                 RotateLeft();
                 Debug.Log("leftWorks");
