@@ -22,6 +22,6 @@ public class Shell : MonoBehaviour
             target.TakeDamage(damage);
         }
 
-       // Destroy(gameObject);
+       Destroy(gameObject);
     }
 }

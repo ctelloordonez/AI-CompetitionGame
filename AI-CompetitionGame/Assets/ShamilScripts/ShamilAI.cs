@@ -14,7 +14,6 @@ public class ShamilAI : MonoBehaviour, ITank
     private float turnInputValue;
     public float turnSpeed;          
    
-
     // rycst vars
     RaycastHit hit;
     public float centerSightDist;           
@@ -31,7 +30,6 @@ public class ShamilAI : MonoBehaviour, ITank
     private bool enemyTankRight;
     private bool enemyTankLeft;
 
-
     //fire vars
     public Rigidbody shell;
     public Transform fireTransform;
@@ -41,16 +39,19 @@ public class ShamilAI : MonoBehaviour, ITank
 
     // Player health vars
     public int tankHealth = 100;
-    public int damage = 10;
+    public int shellDamage;
+    public int bulletDamage;
 
-   
-  
+    //particle effects and UI elements
+    public GameObject explosionEffect;
+    public GameObject text;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        text.SetActive(false);
         movementInputValue = 1;
         turnInputValue = 0;
         rb = GetComponent<Rigidbody>();
@@ -99,6 +100,33 @@ public class ShamilAI : MonoBehaviour, ITank
        
 
     }
+    //tank take damage function
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Shell")
+        {
+            tankHealth -= shellDamage;
+            Debug.Log(tankHealth);
+            HealthBar.health -= 25f;
+           
+            if (HealthBar.health == 0)
+            {
+                Instantiate(explosionEffect, transform.position, Quaternion.identity);
+                text.SetActive(true);
+                Destroy(gameObject,0.3f);
+            }
+        }
+        else if(collision.gameObject.tag == "Bullet")
+        {
+            tankHealth -= bulletDamage;
+            HealthBar.health -= 10f;
+            Debug.Log(tankHealth);
+            if(HealthBar.health == 0)
+            {
+                Destroy(gameObject,0.3f);
+            }
+        }
+    }
 
     // The tanks moves either forward or backwards
     public void Move()
@@ -121,18 +149,6 @@ public class ShamilAI : MonoBehaviour, ITank
         //different script used for this function and attached to turret. 
     }
 
-
-    //tank take damage function
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.tag == "Shell")
-        {
-            tankHealth -= damage;
-            Debug.Log(tankHealth);
-            HealthBar.health -= 10f;
-        }
-    }
- 
 
     // Instantiates and fires a bullet
     public void Fire()
@@ -179,9 +195,7 @@ public class ShamilAI : MonoBehaviour, ITank
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
             {
                
-                enemyTankAhead = true;
-               // HealthBar.health -= 10f; //it is a damage function, will be improved once more changes are applied to script;
-             
+                enemyTankAhead = true;           
 
             }
         }
@@ -203,10 +217,7 @@ public class ShamilAI : MonoBehaviour, ITank
             }
             if (hit.collider.gameObject.tag == "EnemyTank")
             {
-           
-                enemyTankRight = true;
-               
-               
+                enemyTankRight = true;   
             }
         }
         else
