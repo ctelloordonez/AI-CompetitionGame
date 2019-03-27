@@ -64,16 +64,25 @@ public class ShamilAI : MonoBehaviour, ITank
 
         if (obstacleLeft)
             turnInputValue = 1;
+
         if (obstacleRight)
             turnInputValue = -1;
 
         if (obstacleRight && obstacleLeft)
             turnInputValue = 1;
+
         if (!obstacleAhead && !obstacleLeft && !obstacleRight)
         {
             movementInputValue = 1;
             turnInputValue = 0;
         }
+
+        if(enemyTankLeft && enemyTankAhead && enemyTankRight)
+        {
+            movementInputValue = 0;
+            turnInputValue = 0;
+        }
+
         if (timeShot > 0)
         {
             timeShot -= Time.deltaTime;
@@ -100,7 +109,7 @@ public class ShamilAI : MonoBehaviour, ITank
        
 
     }
-    //tank take damage function
+    //tank take damage 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Shell")
@@ -193,15 +202,14 @@ public class ShamilAI : MonoBehaviour, ITank
                 }
             }
             if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
-            {
-               
-                enemyTankAhead = true;           
-
+            { 
+                enemyTankAhead = true;
             }
         }
         else
         {
             obstacleAhead = false;
+            enemyTankAhead = false;
         }
 
 
@@ -210,19 +218,20 @@ public class ShamilAI : MonoBehaviour, ITank
         {
             if (hit.collider.gameObject.tag == "Environment")
             {
-                
+
                 print(distanceToObject + " " + hit.collider.gameObject.name);
-                //Debug.Log("Tank: Terrain is blocking my way on the right");
                 obstacleRight = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank")
             {
-                enemyTankRight = true;   
+                enemyTankRight = true;
             }
         }
         else
+        {
             obstacleRight = false;
-
+            enemyTankRight = false;
+        }
 
 
         if (Physics.Raycast(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right), out hit, raycastLength))
@@ -233,14 +242,16 @@ public class ShamilAI : MonoBehaviour, ITank
                 obstacleLeft = true;
             }
             if (hit.collider.gameObject.tag == "EnemyTank")
-            {              
-                enemyTankLeft = true;   
+            {
+                enemyTankLeft = true;
             }
-           
+
         }
         else
+        {
             obstacleLeft = false;
-
+            enemyTankLeft = false;
+        }
     }
 }
 

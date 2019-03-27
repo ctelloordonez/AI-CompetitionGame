@@ -13,8 +13,8 @@ public class TurretRotation : MonoBehaviour
     public float raycastLength;
 
     public float rotSpeed;
-    private bool left;
-    private bool right;
+    private bool rotLeft;
+    private bool rotRight;
 
     //fire vars
     public Rigidbody shell;
@@ -22,8 +22,6 @@ public class TurretRotation : MonoBehaviour
     public float shellSpeed;
     public float shellCooldown;
     private float timeShot;
-
-
     public Rigidbody bullet;
     public float bulletSpeed;
     public float bulletCooldown;
@@ -41,6 +39,7 @@ public class TurretRotation : MonoBehaviour
         {
             timeShotBullet -= Time.deltaTime;
         }
+       // transform.Rotate(0, rotSpeed, 0);
 
     }
 
@@ -57,37 +56,32 @@ public class TurretRotation : MonoBehaviour
         timeShotBullet = bulletCooldown;
     }
 
-
-
-    public void RotateLeft()
+    void RotateRight()
     {
-        if (left)
-        {
-            transform.Rotate(0, -rotSpeed, 0);
-            left = true;
-        }
+        transform.Rotate(0, rotSpeed, 0);
+        rotRight = true;
     }
-
-    public void RotateRight()
+    
+    void RotateLeft()
     {
-        if (right)
-        {
-            transform.Rotate(0, rotSpeed, 0);
-            right = true;
-        }
-       
+        transform.Rotate(0, -rotSpeed, 0);
+        rotLeft = true;
     }
+    
 
     private void FixedUpdate()
     {
         CheckForTank();
+        
     }
 
     public void RotateStop()
     {
-        left = false;
-        right = false;
+        rotRight = false;
+        rotLeft = false;
     }
+    
+    
 
     public void CheckForTank()
     {
@@ -124,7 +118,7 @@ public class TurretRotation : MonoBehaviour
                 if(hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
                 {
                     FireShell();
-                    FireBullet();
+                  
                 }
                 if (hit.collider.gameObject.tag == "EnemyTank" && timeShotBullet <= 0)
                 {
@@ -134,6 +128,10 @@ public class TurretRotation : MonoBehaviour
                 Debug.Log("rightTank");
                 
             }
+        }
+        else
+        {
+            rotRight = false;
         }
 
         if (Physics.Raycast(transform.position + Vector3.up * 1.7f, (transform.forward - transform.right), out hit, raycastLength))
@@ -154,5 +152,6 @@ public class TurretRotation : MonoBehaviour
                 Debug.Log("leftWorks");
             }
         }
+        rotLeft = false;
     }
 }
