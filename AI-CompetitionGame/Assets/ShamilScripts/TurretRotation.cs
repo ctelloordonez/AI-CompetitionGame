@@ -137,7 +137,7 @@ public class TurretRotation : MonoBehaviour
         }
         else
         {
-            startRotPos = transform.rotation;
+            //transform.rotation = startRotPos;
             
         }
 

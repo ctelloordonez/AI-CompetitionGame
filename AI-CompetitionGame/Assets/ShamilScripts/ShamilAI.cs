@@ -108,13 +108,13 @@ public class ShamilAI : MonoBehaviour, ITank
     // Returns the current health of the tank
     public float GetHealth()
     {
-        return 0;
+        return HealthBar.health;
     }
 
     // Apply an specified amount of damage to the tank
     public void TakeDamage(float damage)
     {
-        //used different function
+        
        
 
     }
