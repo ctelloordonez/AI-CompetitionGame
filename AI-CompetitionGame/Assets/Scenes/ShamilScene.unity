@@ -2932,6 +2932,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5263426232402877873}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1332592782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332592781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7fc0ce30f377443ba379b3886ec696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 12
+  turnSpeed: 180
+  centerSightDist: 0
+  outerSightDist: 0
+  stoppingDist: 0
+  raycastLength: 0
+  shell: {fileID: 0}
+  fireTransform: {fileID: 0}
+  shellSpeed: 0
+  timeInBetween: 0
+  tankHealth: 100
+  shellDamage: 0
+  bulletDamage: 0
+  text: {fileID: 0}
 --- !u!1001 &1343479705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4057,6 +4083,16 @@ PrefabInstance:
       propertyPath: cooldown
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5163982737688418317, guid: 41a8a06cea6eefc47872a96a1f219907,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163982737688418317, guid: 41a8a06cea6eefc47872a96a1f219907,
+        type: 3}
+      propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a8a06cea6eefc47872a96a1f219907, type: 3}
 --- !u!1001 &5263426232402877873
@@ -4070,6 +4106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShamilTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263426233893685406, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 5263426233893685378, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
         type: 3}
@@ -4131,6 +4172,16 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 960422713}
+    - target: {fileID: 5263426233893685376, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263426232402877875, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a2e8047a1f16bb4f8dced961b477fe0, type: 3}
 --- !u!1001 &6796872889193158710
@@ -5380,11 +5431,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Environment
       objectReference: {fileID: 0}
-    - target: {fileID: 1102696485250386348, guid: ec8f290f971da28438070555c17c4bcc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -96.9
-      objectReference: {fileID: 0}
     - target: {fileID: 8200637273451807236, guid: ec8f290f971da28438070555c17c4bcc,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5414,6 +5460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.899998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1102696485250386348, guid: ec8f290f971da28438070555c17c4bcc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -96.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec8f290f971da28438070555c17c4bcc, type: 3}

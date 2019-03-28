@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Carlos : MonoBehaviour, ITank
+public class Carlos : MonoBehaviour /*ITank*/
 {
     // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.

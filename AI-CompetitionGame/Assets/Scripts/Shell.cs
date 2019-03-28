@@ -15,7 +15,7 @@ public class Shell : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Carlos target = other.GetComponent<Carlos>();
+        Tank target = other.GetComponent<Tank>();
 
         if (target != null)
         {

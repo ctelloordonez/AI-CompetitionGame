@@ -9,13 +9,14 @@ public class HealthBar : MonoBehaviour
     float shamilHealth = 100f;
     public static float health;
     public GameObject tank;
-    private float h;
+
+    
+
     // Start is called before the first frame update
     void Start()
     {
         healthBar = GetComponent<Image>();
-        health = shamilHealth;
-        h = tank.GetComponent<ShamilAI>().GetHealth();
+        health = tank.GetComponent<Tank>().GetHealth();
 
     }
     // Update is called once per frame

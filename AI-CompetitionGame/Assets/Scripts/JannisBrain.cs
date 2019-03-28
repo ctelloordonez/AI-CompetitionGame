@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class JannisBrain : MonoBehaviour
 {
+    /*
     [Header("References")]
     [Tooltip("The target object will be used for the intercept calculations")]
     private GameObject Target = null; // replace this go with a target found from the search mechanism
@@ -44,7 +45,18 @@ public class JannisBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (obstacleLeft)
+            turnInputValue = 1;
+        if (obstacleRight)
+            turnInputValue = -1;
+
+        if (obstacleRight && obstacleLeft)
+            turnInputValue = 1;
+        if (!obstacleAhead && !obstacleLeft && !obstacleRight)
+        {
+            movementInputValue = 1;
+            turnInputValue = 0;
+        }
     }
 
     #region TriggerChecks
@@ -235,3 +247,4 @@ public class JannisBrain : MonoBehaviour
 
 
 }
+*/

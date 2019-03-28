@@ -1,22 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 
-public class ShamilAI : MonoBehaviour
+public class ShamilBrain : MonoBehaviour
 {
-
     // movement vars
-    public float speed;             
+    public float speed;
     private Rigidbody rb;
     private float movementInputValue;
     private float turnInputValue;
-    public float turnSpeed;          
-   
+    public float turnSpeed;
+
     // rycst vars
     RaycastHit hit;
-    public float centerSightDist;           
+    public float centerSightDist;
     public float outerSightDist;
     public float stoppingDist;
     private float distanceToObject;
@@ -43,7 +41,7 @@ public class ShamilAI : MonoBehaviour
     public int bulletDamage;
 
     //particle effects and UI elements
-   // public GameObject explosionEffect;
+    // public GameObject explosionEffect;
     public GameObject text;
 
 
@@ -77,21 +75,21 @@ public class ShamilAI : MonoBehaviour
             turnInputValue = 0;
         }
 
-        if(enemyTankAhead)
+        if (enemyTankAhead)
         {
             movementInputValue = 0;
         }
-        if(enemyTankLeft)
-        {
-            movementInputValue = 0;
-            turnInputValue = 0;
-        }
-        if(enemyTankRight)
+        if (enemyTankLeft)
         {
             movementInputValue = 0;
             turnInputValue = 0;
         }
-            
+        if (enemyTankRight)
+        {
+            movementInputValue = 0;
+            turnInputValue = 0;
+        }
+
         if (timeShot > 0)
         {
             timeShot -= Time.deltaTime;
@@ -114,8 +112,8 @@ public class ShamilAI : MonoBehaviour
     // Apply an specified amount of damage to the tank
     public void TakeDamage(float damage)
     {
-        
-       
+
+
 
     }
     //tank take damage 
@@ -126,22 +124,22 @@ public class ShamilAI : MonoBehaviour
             tankHealth -= shellDamage;
             Debug.Log(tankHealth);
             HealthBar.health -= 25f;
-           
+
             if (HealthBar.health == 0)
             {
                 text.SetActive(true);
-                Destroy(gameObject,0.3f);
+                Destroy(gameObject, 0.3f);
                 Debug.Log("Destroyed");
             }
         }
-        else if(collision.gameObject.tag == "Bullet")
+        else if (collision.gameObject.tag == "Bullet")
         {
             tankHealth -= bulletDamage;
             HealthBar.health -= 10f;
             Debug.Log(tankHealth);
-            if(HealthBar.health == 0)
+            if (HealthBar.health == 0)
             {
-                Destroy(gameObject,0.3f);
+                Destroy(gameObject, 0.3f);
                 text.SetActive(true);
             }
         }
@@ -182,9 +180,9 @@ public class ShamilAI : MonoBehaviour
     {
 
     }
-    
 
-   //AI obstacle check with raycast
+
+    //AI obstacle check with raycast
     public void CheckSurface()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastLength;
@@ -195,7 +193,7 @@ public class ShamilAI : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * raycastLength, Color.green);
-      
+
 
         if (Physics.Raycast(transform.position + Vector3.up * 3, transform.forward, out hit, raycastLength))
         {
@@ -213,17 +211,17 @@ public class ShamilAI : MonoBehaviour
             if (hit.collider.gameObject.tag == "EnemyTank")
             {
                 enemyTankAhead = true;
-               // movementInputValue = 0;
+                // movementInputValue = 0;
                 //turnInputValue = 0;
                 Debug.Log("tankAhead");
-                
+
             }
         }
         else
         {
             obstacleAhead = false;
             enemyTankAhead = false;
-           
+
         }
 
 
@@ -269,5 +267,81 @@ public class ShamilAI : MonoBehaviour
             enemyTankLeft = false;
         }
     }
-}
 
+    /*
+    private Tank tank;
+    private float movementInputValue;
+    private float turnInputValue;
+    private string obstacleAhead;
+    private string obstacleLeft;
+    private string obstacleRight;
+    public float turnSpeed = 180f;
+    public float turnTurretSpeed = 90f;
+
+    //movement
+    public float speed = 12f;
+    private Rigidbody m_Rigidbody;
+
+    private void Start()
+    {
+        m_Rigidbody = GetComponent<Rigidbody>();
+        movementInputValue = 1;
+        turnInputValue = 0;
+        tank = GetComponent<Tank>();
+    }
+
+    private void Update()
+    {
+        tank.Move(movementInputValue);
+        tank.Fire();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        obstacleAhead = tank.ObstacleAhead();
+        if(obstacleAhead == "Tank")
+        {
+            tank.Fire();
+        }
+        if(obstacleAhead == "Enviroment")
+        {
+            movementInputValue = 0;
+            turnInputValue = 1;
+        }
+
+        obstacleLeft = tank.ObstacleLeft();
+        if(obstacleLeft == "Tank")
+        {
+            tank.Fire();
+        }
+        if(obstacleLeft == "Enviroment")
+        {
+            turnInputValue = 1;
+        }
+        obstacleRight = tank.ObstacleRight();
+        if(obstacleRight == "Tank")
+        {
+            tank.Fire();
+        }
+        if(obstacleRight == "Enviroment")
+        {
+            turnInputValue = -1;
+        }
+    
+    }
+
+    public void Move()
+    {
+        Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
+        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+
+    }
+    */
+}

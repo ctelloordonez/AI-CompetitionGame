@@ -64,7 +64,7 @@ public class TurretRotation : MonoBehaviour
     void RotateRight()
     {
         transform.Rotate(0, rotSpeed, 0);
-        rotRight = true;
+       // rotRight = true;
         FireShell();
     }
     
@@ -72,7 +72,7 @@ public class TurretRotation : MonoBehaviour
     {
         
         transform.Rotate(0, -rotSpeed, 0);
-        rotLeft = true;
+        //rotLeft = true;
     }
     
 
