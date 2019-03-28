@@ -24,19 +24,24 @@ public class Tank : MonoBehaviour, ITank
     private bool obstacleAhead = false;
     public float stoppingDist;
 
+    private TankVision vision;
+
 
     // Start is called before the first frame update
     void Start()
     {
         movementInputValue = 1;
         turnInputValue = 0;
-        m_Rigidbody = GetComponent<Rigidbody> ();   
+        m_Rigidbody = GetComponent<Rigidbody> ();
+
+        vision = GetComponent<TankVision>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+        /*
         if (obstacleLeft)
             turnInputValue = 1;
         if (obstacleRight)
@@ -49,14 +54,41 @@ public class Tank : MonoBehaviour, ITank
             movementInputValue = 1;
             turnInputValue = 0;
         }
-        
+        */
     }
 
     private void FixedUpdate()
     {
+        obstacleAhead = vision.CheckAhead();
+        obstacleRight = vision.CheckRight();
+        obstacleLeft = vision.CheckLeft();
+
+        if (!obstacleAhead && !obstacleLeft && !obstacleRight)
+        {
+            movementInputValue = 1;
+            turnInputValue = 0;
+        }
+
+        if (obstacleAhead)
+        {
+            if (obstacleRight)
+                turnInputValue = 1;
+            else
+                turnInputValue = -1;
+        }
+
+        if (obstacleLeft)
+            turnInputValue = 1;
+        else if (obstacleRight)
+            turnInputValue = -1;
+
+        //if (obstacleRight && obstacleLeft)
+            //turnInputValue = 1;
+        
+
         Move();
         Turn();
-        CheckSurface();
+        //CheckSurface();
     }
 
     // Returns the current health of the tank
@@ -134,9 +166,6 @@ public class Tank : MonoBehaviour, ITank
             obstacleAhead = false;
         }
         
-
-
-
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
         {
             if (hit.collider.gameObject.tag == "Environment")
@@ -161,7 +190,5 @@ public class Tank : MonoBehaviour, ITank
         }
         else
             obstacleLeft = false;
-        
-
     }
 }
