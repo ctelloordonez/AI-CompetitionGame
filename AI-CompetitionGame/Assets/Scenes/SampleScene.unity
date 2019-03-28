@@ -2724,7 +2724,7 @@ MonoBehaviour:
   centerSightDist: 10
   outerSightDist: 10
   stoppingDist: 6
-  turretCanon: {fileID: 0}
+  turretCanon: {fileID: 1302513105}
   Targetpoint: {x: 0, y: 0, z: 0}
 --- !u!54 &1600918834
 Rigidbody:
