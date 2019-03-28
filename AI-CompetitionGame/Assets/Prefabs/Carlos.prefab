@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 1043270149321413377}
   - component: {fileID: 5163982737688418317}
   - component: {fileID: 2995753086280828741}
-  - component: {fileID: 1113721640}
   m_Layer: 0
   m_Name: Carlos
   m_TagString: Tank
@@ -180,22 +179,6 @@ MonoBehaviour:
   heightMultiplier: 2.88
   centerSightDist: 20
   outerSightDist: 15
---- !u!114 &1113721640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043270149321413378}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49e16707499e054295cade5ff787b06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
-  fireTransform: {fileID: 5180889705399618129}
-  speed: 30
-  cooldown: 2
 --- !u!1 &1043270149321413380
 GameObject:
   m_ObjectHideFlags: 0

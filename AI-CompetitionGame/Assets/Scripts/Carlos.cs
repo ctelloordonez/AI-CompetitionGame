@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Carlos : MonoBehaviour
+public class Carlos : MonoBehaviour, ITank
 {
     // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
@@ -123,7 +123,7 @@ public class Carlos : MonoBehaviour
     // Returns the current health of the tank
     public float GetHealth()
     {
-        return 0;
+        return health;
     }
 
     // Applie an specified amount of damage to the tank
@@ -168,5 +168,10 @@ public class Carlos : MonoBehaviour
     public void ChangeAmmo()
     {
         
+    }
+
+    public void CheckSurface()
+    {
+
     }
 }
