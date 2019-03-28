@@ -3940,7 +3940,7 @@ PrefabInstance:
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.14
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
@@ -3950,7 +3950,7 @@ PrefabInstance:
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.7
+      value: -14.8
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
@@ -4073,7 +4073,7 @@ PrefabInstance:
     - target: {fileID: 5263426233893685406, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
         type: 3}
       propertyPath: m_TagString
-      value: EnemyTank
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5263426233893685406, guid: 0a2e8047a1f16bb4f8dced961b477fe0,
         type: 3}
@@ -4279,10 +4279,10 @@ MonoBehaviour:
   centerSightDist: 10
   outerSightDist: 10
   raycastLength: 10
-  rotSpeed: 8
-  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
+  rotSpeed: 0.8
+  shell: {fileID: 7766665433842253994, guid: 209894fd322c1ae48b2840e8bf857c9f, type: 3}
   fireTransform: {fileID: 1104525090}
-  shellSpeed: 20
+  shellSpeed: 16
   shellCooldown: 8
   bullet: {fileID: 1409592985, guid: fffb9a4df12f7c54e88e08ddde3feff2, type: 3}
   bulletSpeed: 16
@@ -4303,6 +4303,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796872890072536934, guid: ec8f290f971da28438070555c17c4bcc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6796872890072536935, guid: ec8f290f971da28438070555c17c4bcc,
         type: 3}

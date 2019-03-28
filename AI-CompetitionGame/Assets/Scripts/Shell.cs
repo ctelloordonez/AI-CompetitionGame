@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shell : MonoBehaviour
 {
     public float damage = 100f;
-    public float lifeTime = 2f;
+    public float lifeTime = 4f;
 
     // Start is called before the first frame update
     void Start()

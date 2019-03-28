@@ -43,7 +43,7 @@ public class ShamilAI : MonoBehaviour, ITank
     public int bulletDamage;
 
     //particle effects and UI elements
-    public GameObject explosionEffect;
+   // public GameObject explosionEffect;
     public GameObject text;
 
 
@@ -77,12 +77,21 @@ public class ShamilAI : MonoBehaviour, ITank
             turnInputValue = 0;
         }
 
-        if(enemyTankLeft && enemyTankAhead && enemyTankRight)
+        if(enemyTankAhead)
+        {
+            movementInputValue = 0;
+        }
+        if(enemyTankLeft)
         {
             movementInputValue = 0;
             turnInputValue = 0;
         }
-
+        if(enemyTankRight)
+        {
+            movementInputValue = 0;
+            turnInputValue = 0;
+        }
+            
         if (timeShot > 0)
         {
             timeShot -= Time.deltaTime;
@@ -120,9 +129,9 @@ public class ShamilAI : MonoBehaviour, ITank
            
             if (HealthBar.health == 0)
             {
-                Instantiate(explosionEffect, transform.position, Quaternion.identity);
                 text.SetActive(true);
                 Destroy(gameObject,0.3f);
+                Debug.Log("Destroyed");
             }
         }
         else if(collision.gameObject.tag == "Bullet")
@@ -133,6 +142,7 @@ public class ShamilAI : MonoBehaviour, ITank
             if(HealthBar.health == 0)
             {
                 Destroy(gameObject,0.3f);
+                text.SetActive(true);
             }
         }
     }
@@ -182,7 +192,6 @@ public class ShamilAI : MonoBehaviour, ITank
         Vector3 right = transform.TransformDirection(Vector3.right) * raycastLength;
         Vector3 back = transform.TransformDirection(Vector3.back) * raycastLength;
 
-
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, transform.forward * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward + transform.right) * raycastLength, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 2.8f, (transform.forward - transform.right) * raycastLength, Color.green);
@@ -201,15 +210,20 @@ public class ShamilAI : MonoBehaviour, ITank
                     turnInputValue = 1;
                 }
             }
-            if (hit.collider.gameObject.tag == "EnemyTank" && timeShot <= 0)
-            { 
+            if (hit.collider.gameObject.tag == "EnemyTank")
+            {
                 enemyTankAhead = true;
+               // movementInputValue = 0;
+                //turnInputValue = 0;
+                Debug.Log("tankAhead");
+                
             }
         }
         else
         {
             obstacleAhead = false;
             enemyTankAhead = false;
+           
         }
 
 
@@ -225,6 +239,7 @@ public class ShamilAI : MonoBehaviour, ITank
             if (hit.collider.gameObject.tag == "EnemyTank")
             {
                 enemyTankRight = true;
+                Debug.Log("tankRight");
             }
         }
         else
@@ -244,6 +259,7 @@ public class ShamilAI : MonoBehaviour, ITank
             if (hit.collider.gameObject.tag == "EnemyTank")
             {
                 enemyTankLeft = true;
+                Debug.Log("tankLeft");
             }
 
         }

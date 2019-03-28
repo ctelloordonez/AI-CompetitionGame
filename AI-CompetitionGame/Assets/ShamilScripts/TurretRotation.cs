@@ -27,7 +27,12 @@ public class TurretRotation : MonoBehaviour
     public float bulletCooldown;
     private float timeShotBullet;
 
-   
+    Quaternion startRotPos;
+
+    private void Start()
+    {
+        startRotPos = transform.rotation;
+    }
 
     public void Update()
     {
@@ -60,10 +65,12 @@ public class TurretRotation : MonoBehaviour
     {
         transform.Rotate(0, rotSpeed, 0);
         rotRight = true;
+        FireShell();
     }
     
     void RotateLeft()
     {
+        
         transform.Rotate(0, -rotSpeed, 0);
         rotLeft = true;
     }
@@ -74,14 +81,13 @@ public class TurretRotation : MonoBehaviour
         CheckForTank();
         
     }
-
-    public void RotateStop()
+    
+   public void GoToPrevPos()
     {
-        rotRight = false;
-        rotLeft = false;
+        
     }
     
-    
+
 
     public void CheckForTank()
     {
@@ -131,7 +137,8 @@ public class TurretRotation : MonoBehaviour
         }
         else
         {
-            rotRight = false;
+            startRotPos = transform.rotation;
+            
         }
 
         if (Physics.Raycast(transform.position + Vector3.up * 1.7f, (transform.forward - transform.right), out hit, raycastLength))
