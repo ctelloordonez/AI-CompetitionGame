@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour, ITank
 {
-    // rotations
+    // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
     public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
 
@@ -23,27 +23,26 @@ public class Tank : MonoBehaviour, ITank
     private bool obstacleRight = false;
     private bool obstacleAhead = false;
     public float stoppingDist;
-    private float distanceToObject;
 
-    private TankVision vision;
+    public Transform turretCanon;
 
+    private Quaternion _lookRotation;
+    private Vector3 _direction;
+
+    public Vector3 Targetpoint;
 
     // Start is called before the first frame update
     void Start()
     {
-
         movementInputValue = 1;
         turnInputValue = 0;
-        m_Rigidbody = GetComponent<Rigidbody> ();
-
-        vision = GetComponent<TankVision>();
+        m_Rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        
         if (obstacleLeft)
             turnInputValue = 1;
         if (obstacleRight)
@@ -51,47 +50,20 @@ public class Tank : MonoBehaviour, ITank
 
         if (obstacleRight && obstacleLeft)
             turnInputValue = 1;
-        if(!obstacleAhead && !obstacleLeft && !obstacleRight)
-        {
-            movementInputValue = 1;
-            turnInputValue = 0;
-        }
-
-
-    }
-
-    private void FixedUpdate()
-    {
-        obstacleAhead = vision.CheckAhead();
-        obstacleRight = vision.CheckRight();
-        obstacleLeft = vision.CheckLeft();
-
         if (!obstacleAhead && !obstacleLeft && !obstacleRight)
         {
             movementInputValue = 1;
             turnInputValue = 0;
         }
 
-        if (obstacleAhead)
-        {
-            if (obstacleRight)
-                turnInputValue = 1;
-            else
-                turnInputValue = -1;
-        }
+    }
 
-        if (obstacleLeft)
-            turnInputValue = 1;
-        else if (obstacleRight)
-            turnInputValue = -1;
-
-        //if (obstacleRight && obstacleLeft)
-            //turnInputValue = 1;
-
-
+    private void FixedUpdate()
+    {
         Move();
         Turn();
-        //CheckSurface();
+        CheckSurface();
+        TurnTurret();
     }
 
     // Returns the current health of the tank
@@ -124,7 +96,14 @@ public class Tank : MonoBehaviour, ITank
     // Rotates the direction the turret is aiming
     public void TurnTurret()
     {
+        //find the vector pointing from our position to the target
+        _direction = (Targetpoint - turretCanon.position).normalized;
 
+        //create the rotation we need to be in to look at the target
+        _lookRotation = Quaternion.LookRotation(_direction);
+
+        //rotate us over time according to speed until we are in the required rotation
+        turretCanon.transform.rotation = Quaternion.Slerp(turretCanon.rotation, _lookRotation, Time.deltaTime * turnTurretSpeed);
     }
 
     // Instantiates and fires a bullet
@@ -147,20 +126,20 @@ public class Tank : MonoBehaviour, ITank
         Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
 
-        if(Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
         {
-            if(hit.collider.gameObject.tag == "Environment")
+            if (hit.collider.gameObject.tag == "Environment")
             {
                 Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
 
                 //Debug.Log("Tank: Terrain is blocking my way upfront");
                 obstacleAhead = true;
                 float distance = stoppingDist - hit.distance;
-                Debug.Log(distance);
-                if(distance > 0)
+                //Debug.Log(distance);
+                if (distance > 0)
                 {
                     movementInputValue = 0;
-                    turnInputValue = 1;
+                    turnInputValue = 3;
                 }
             }
         }
@@ -168,6 +147,7 @@ public class Tank : MonoBehaviour, ITank
         {
             obstacleAhead = false;
         }
+
 
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
         {
