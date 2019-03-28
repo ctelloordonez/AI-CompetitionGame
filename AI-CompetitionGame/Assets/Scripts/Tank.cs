@@ -43,7 +43,7 @@ public class Tank : MonoBehaviour, ITank
     void Update()
     {
 
-        /*
+        
         if (obstacleLeft)
             turnInputValue = 1;
         if (obstacleRight)

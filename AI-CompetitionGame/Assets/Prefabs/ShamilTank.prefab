@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 5263426233654990944}
   - component: {fileID: 5263426233654990946}
   - component: {fileID: 5263426233654990947}
+  - component: {fileID: 5263426232402877875}
   m_Layer: 0
   m_Name: TankTurret
   m_TagString: Untagged
@@ -236,6 +237,29 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5263426232402877875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5263426233654990945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a13a6837b36bd40ba00c20d9db486a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerSightDist: 10
+  outerSightDist: 10
+  raycastLength: 10
+  rotSpeed: 0.8
+  shell: {fileID: 7766665433842253994, guid: 209894fd322c1ae48b2840e8bf857c9f, type: 3}
+  fireTransform: {fileID: 5263426233841893154}
+  shellSpeed: 16
+  shellCooldown: 8
+  bullet: {fileID: 1409592985, guid: fffb9a4df12f7c54e88e08ddde3feff2, type: 3}
+  bulletSpeed: 16
+  bulletCooldown: 1
 --- !u!1 &5263426233841893155
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5263426233841893155}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.030000435, y: 0.55700004, z: 1.2800001}
+  m_LocalPosition: {x: -0.03, y: 0.55700004, z: 1.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5263426233654990944}
@@ -315,7 +339,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!136 &5263426233893685377
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -342,16 +366,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465dd8d45e23e72419ea4bf887cc8099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  turnSpeed: 0
-  centerSightDist: 0
-  outerSightDist: 0
-  stoppingDist: 12
-  raycastLength: 0
-  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
+  speed: 0
+  turnSpeed: 180
+  centerSightDist: 10
+  outerSightDist: 10
+  stoppingDist: 9
+  raycastLength: 14
+  shell: {fileID: 7766665433842253994, guid: 209894fd322c1ae48b2840e8bf857c9f, type: 3}
   fireTransform: {fileID: 5263426233841893154}
-  shellSpeed: 0
-  timeInBetween: 0
+  shellSpeed: 40
+  timeInBetween: 2
+  tankHealth: 100
+  shellDamage: 25
+  bulletDamage: 10
+  text: {fileID: 0}
 --- !u!1 &5263426233949469309
 GameObject:
   m_ObjectHideFlags: 0
