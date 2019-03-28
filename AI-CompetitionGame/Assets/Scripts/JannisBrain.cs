@@ -15,9 +15,8 @@ public class JannisBrain : MonoBehaviour
 
     [Header("Positions")]
     //locations 
-    [Tooltip("the calculated point the tower will shoot at")]
+    [Tooltip("the calculated point the tank will shoot at")]
     public Vector3 interceptPoint;
-
     private Vector3 shooterPosition; // tower position
     private Vector3 targetPosition; // target position
     //velocities
@@ -27,18 +26,19 @@ public class JannisBrain : MonoBehaviour
     [Header("Extras needed for references or calculations")]
     [Tooltip("speed of the projectile")]
     public float shotSpeed = 0f;
+    [Tooltip("When True, a tank is inside the detection radius")]
+    public bool enemyTankInRange = false;
 
     [Header("Detection")]
     [Tooltip("Radius for detecting enemy tanks")]
     [SerializeField] private float detectionRadius = 0f;
+    [SerializeField] private float detectionCycleTime = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        shooterPosition = shooter.transform.position;
-        targetPosition = target.transform.position;
-        shooterVelocity = shooter.GetComponent<Rigidbody>() ? shooter.GetComponent<Rigidbody>().velocity : Vector3.zero;
-        targetVelocity = target.GetComponent<Rigidbody>() ? target.GetComponent<Rigidbody>().velocity : Vector3.zero;
+        StartCoroutine(scanCycle());
+        shooter = this.gameObject;
     }
 
     // Update is called once per frame
@@ -47,7 +47,34 @@ public class JannisBrain : MonoBehaviour
         
     }
 
-    private void AimAtTarget()
+    #region TriggerChecks
+    private void OnTriggerStay(Collider other) // just constantly checks if there is an enemy tank in range
+    {
+        if(other.gameObject.tag == "Tank") 
+        {
+            enemyTankInRange = true;
+        }
+    }
+    
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Tank")
+        {
+            enemyTankInRange = false;
+        }
+    }
+
+    #endregion
+
+    private IEnumerator scanCycle()
+    {
+        yield return new WaitForSeconds(detectionCycleTime);
+        FindTargetInSurroundingArea();
+    }
+
+
+    private void CallInterceptPoint()
     {
         shooterPosition = shooter.transform.position;
         targetPosition = target.transform.position;
@@ -66,6 +93,8 @@ public class JannisBrain : MonoBehaviour
 
 
 
+
+
                                      //////////////////// Find closest enemy ////////////////////////
                                                          #region Find closest target 
 
@@ -76,32 +105,46 @@ public class JannisBrain : MonoBehaviour
     /// </summary>
     private void FindTargetInSurroundingArea()
     {
-        Collider[] col = Physics.OverlapSphere(transform.position, detectionRadius); // draw a sphere at desire point based on player pos + offset and desired radius of effect
-        if (col.Length > 0)
+        if(enemyTankInRange == true && target == null)
         {
-            float distance = Mathf.Infinity;
-            foreach (Collider hit in col) // checks each object hit
+            Collider[] col = Physics.OverlapSphere(transform.position, detectionRadius); // draw a sphere at desire point based on player pos + offset and desired radius of effect
+            if (col.Length > 0)
             {
-                if (hit.tag == "Tank" && hit.gameObject != this.gameObject) // if hit object has equal tag to tank tag and unequal to the tank its casted from
+                float distance = Mathf.Infinity;
+                foreach (Collider hit in col) // checks each object hit
                 {
-                    float diff = Vector3.Distance(transform.position, hit.transform.position);
-                    float curDistance = diff;
-                    if (curDistance < distance) // compare the distance between each hit tank. If distance to hit tank is smaller to the ones prev. checked
-                    { // do the following
-                        closestEnemy = hit.gameObject; 
-                        distance = curDistance;
+                    if (hit.tag == "Tank" && hit.gameObject != this.gameObject) // if hit object has equal tag to tank tag and unequal to the tank its casted from
+                    {
+                        float diff = Vector3.Distance(transform.position, hit.transform.position);
+                        float curDistance = diff;
+                        if (curDistance < distance) // compare the distance between each hit tank. If distance to hit tank is smaller to the ones prev. checked
+                        { // do the following
+                            closestEnemy = hit.gameObject;
+                            distance = curDistance;
+                        }
                     }
                 }
+                target = closestEnemy;
             }
         }
+        StartCoroutine(scanCycle());
     }
+    #endregion
+
+    #region Show Gizmos
+    void OnDrawGizmosSelected()
+    {
+        // Draw a sphere at the transform's position
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+
     #endregion
 
 
 
-                                    //////////////////// Intercept point ////////////////////////
+    //////////////////// Intercept point ////////////////////////
 
-                                                    #region Intercept Point calculation
+    #region Intercept Point calculation
 
     /// <summary>
     /// This Vector 3 calculates a point in the "future" on which a shot projectile of the tank is able to hit 
