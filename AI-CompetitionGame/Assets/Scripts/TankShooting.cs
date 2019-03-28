@@ -8,8 +8,11 @@ public class TankShooting : MonoBehaviour
     public Transform fireTransform;
     public float speed;
     public float cooldown;
+    public float bulletCooldown;
 
     private float timeShot;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -20,21 +23,22 @@ public class TankShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1") && timeShot <= 0)
+        if (Input.GetKeyDown(KeyCode.B) && timeShot <= 0)
         {
-            Fire();
+            FireShell();
         }
 
         if (timeShot > 0)
         {
-            timeShot -= Time.deltaTime;
+            timeShot -= Time.deltaTime; 
         }
     }
 
-    private void Fire()
+    private void FireShell()
     {
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
         shellInstance.velocity = speed * fireTransform.forward;
         timeShot = cooldown;
-    }
-}
+    }   
+   }
+

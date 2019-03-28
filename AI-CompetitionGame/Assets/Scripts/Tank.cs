@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour, ITank
 {
-    // rotations  
+    // rotations
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
     public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
-    
+
 
     // movement
     public float speed = 12f;               // Movement speed of the tank.
@@ -23,6 +23,7 @@ public class Tank : MonoBehaviour, ITank
     private bool obstacleRight = false;
     private bool obstacleAhead = false;
     public float stoppingDist;
+    private float distanceToObject;
 
     private TankVision vision;
 
@@ -30,6 +31,7 @@ public class Tank : MonoBehaviour, ITank
     // Start is called before the first frame update
     void Start()
     {
+
         movementInputValue = 1;
         turnInputValue = 0;
         m_Rigidbody = GetComponent<Rigidbody> ();
@@ -40,13 +42,13 @@ public class Tank : MonoBehaviour, ITank
     // Update is called once per frame
     void Update()
     {
-        
+
         /*
         if (obstacleLeft)
             turnInputValue = 1;
         if (obstacleRight)
             turnInputValue = -1;
-        
+
         if (obstacleRight && obstacleLeft)
             turnInputValue = 1;
         if(!obstacleAhead && !obstacleLeft && !obstacleRight)
@@ -54,7 +56,8 @@ public class Tank : MonoBehaviour, ITank
             movementInputValue = 1;
             turnInputValue = 0;
         }
-        */
+
+
     }
 
     private void FixedUpdate()
@@ -84,7 +87,7 @@ public class Tank : MonoBehaviour, ITank
 
         //if (obstacleRight && obstacleLeft)
             //turnInputValue = 1;
-        
+
 
         Move();
         Turn();
@@ -140,10 +143,10 @@ public class Tank : MonoBehaviour, ITank
     public void CheckSurface()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.green); 
-        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green); 
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
-        
+
         if(Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
         {
             if(hit.collider.gameObject.tag == "Environment")
@@ -159,13 +162,13 @@ public class Tank : MonoBehaviour, ITank
                     movementInputValue = 0;
                     turnInputValue = 1;
                 }
-            } 
+            }
         }
         else
         {
             obstacleAhead = false;
         }
-        
+
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
         {
             if (hit.collider.gameObject.tag == "Environment")

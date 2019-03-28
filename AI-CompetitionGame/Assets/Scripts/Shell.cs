@@ -12,7 +12,7 @@ public class Shell : MonoBehaviour
     {
         Destroy(gameObject, lifeTime);
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         Carlos target = other.GetComponent<Carlos>();
@@ -22,6 +22,6 @@ public class Shell : MonoBehaviour
             target.TakeDamage(damage);
         }
 
-        Destroy(gameObject);
+       Destroy(gameObject);
     }
 }
