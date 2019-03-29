@@ -32,13 +32,11 @@ public class Tank : MonoBehaviour, ITank
 
     private float timeShot;
     
-
     public Transform turretCanon;
+    public Vector3 Targetpoint;
 
     private Quaternion _lookRotation;
     private Vector3 _direction;
-
-    public Vector3 Targetpoint;
 
     private float health;
 
@@ -117,7 +115,6 @@ public class Tank : MonoBehaviour, ITank
             timeShot = cooldown;
             Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
             shellInstance.velocity = shootSpeed * fireTransform.forward;
-            //timeShot = cooldown;
         }
     }
 

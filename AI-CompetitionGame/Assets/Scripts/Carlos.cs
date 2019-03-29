@@ -20,7 +20,7 @@ public class Carlos : MonoBehaviour /*ITank*/
     private string obstacleLeft;
     private string obstacleRight;
     private string obstacleAhead;
-    private TankVision vision;
+    //private TankVision vision;
 
     // shoot
     public Rigidbody shell;
@@ -42,7 +42,7 @@ public class Carlos : MonoBehaviour /*ITank*/
         health = 100;
 
         m_Rigidbody = GetComponent<Rigidbody>();
-        vision = GetComponent<TankVision>();
+        //vision = GetComponent<TankVision>();
     }
 
     // Update is called once per frame
@@ -56,9 +56,9 @@ public class Carlos : MonoBehaviour /*ITank*/
 
     private void FixedUpdate()
     {
-        obstacleAhead = vision.ObstacleAhead();
+        /*obstacleAhead = vision.ObstacleAhead();
         obstacleRight = vision.ObstacleRight();
-        obstacleLeft = vision.ObstacleLeft();
+        obstacleLeft = vision.ObstacleLeft();*/
 
         if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")
         {
