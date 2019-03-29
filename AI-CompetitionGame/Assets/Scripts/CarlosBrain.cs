@@ -8,6 +8,9 @@ public class CarlosBrain : MonoBehaviour
 
     float movementInputValue;
     float turnInputValue;
+    float lastTurn;
+
+    float timeLastTurn;
 
     string obstacleLeft;
     string obstacleAhead;
@@ -19,6 +22,9 @@ public class CarlosBrain : MonoBehaviour
 
         movementInputValue = 1;
         turnInputValue = 0;
+        lastTurn = turnInputValue;
+        timeLastTurn = 0;
+
         obstacleLeft = null;
         obstacleAhead = null;
         obstacleRight = null;
@@ -26,6 +32,8 @@ public class CarlosBrain : MonoBehaviour
 
     private void Update()
     {
+        timeLastTurn += Time.deltaTime;
+
         tank.Move(movementInputValue);
         tank.Turn(turnInputValue);
     }
@@ -47,32 +55,47 @@ public class CarlosBrain : MonoBehaviour
 
         else if (obstacleAhead == "Environment")
         {
-            if (obstacleRight == "Environment" && obstacleLeft == "Environment")     // If there are obsctacle ahead, right and left, then stop and turn left
+            if (obstacleRight == "Environment" && obstacleLeft == "Environment")     // If there are obsctacle ahead, right and left,
             {
-                movementInputValue = 0;
-                turnInputValue = 1;
+                movementInputValue = 0;                                              // then stop, 
+
+                if (!JustTurned())
+                {
+                    turnInputValue = 1;                                                   // turn right
+                    timeLastTurn = 0;
+                }
             }
 
             else
             {
-                if(obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then turn right
+                if(obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then
                 {
-                    turnInputValue = -1;
+                    if (!JustTurned())
+                    {
+                        turnInputValue = 1;                                                   // turn right
+                        timeLastTurn = 0;
+                    }
                 }
 
                 else if(obstacleRight == "Environment") // If there is an obstacle ahead and right, then turn left
                 {
-                    turnInputValue = 1;
+                    if (!JustTurned())
+                    {
+                        turnInputValue = -1;                                                   // turn right
+                        timeLastTurn = 0;
+                    }
                 }
 
                 else                                    // If the obstacle is ahead, then slowdown and turn left
                 {
                     movementInputValue = 0.5f;
-                    turnInputValue = 1;
+                    if (!JustTurned())
+                    {
+                        turnInputValue = -1;                                                   // turn left
+                        timeLastTurn = 0;
+                    }
                 }
             }
-
-            
         }
 
         else
@@ -87,13 +110,22 @@ public class CarlosBrain : MonoBehaviour
 
                 else                                    // If there is an obstacle left, then turn right
                 {
-                    turnInputValue = -0.5f;
+                    if (!JustTurned())
+                    {
+                        turnInputValue = 0.5f;                                                   // turn right
+                        timeLastTurn = 0;
+                    }
+                    turnInputValue = 0.5f;
                 }
             }
 
             else if (obstacleRight == "Environment")    // If ther is an obstacle right, then turn left
             {
-                turnInputValue = 0.5f;
+                if (!JustTurned())
+                {
+                    turnInputValue = -0.5f;                                                   // turn left
+                    timeLastTurn = 0;
+                }
             }
 
             else                                        // if there are not obstacles, then keep moving without turning
@@ -102,5 +134,21 @@ public class CarlosBrain : MonoBehaviour
                 turnInputValue = 0;
             }
         }
+
+        lastTurn = turnInputValue;
+    }
+
+    private bool JustTurned()
+    {
+        if (timeLastTurn < 0.25)
+        {
+            if (lastTurn != 0)
+            {
+                turnInputValue = lastTurn;
+                timeLastTurn = 0;
+            }
+            return true;
+        }
+        return false;
     }
 }
