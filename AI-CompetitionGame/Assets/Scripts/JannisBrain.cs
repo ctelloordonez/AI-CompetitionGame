@@ -83,7 +83,7 @@ public class JannisBrain : MonoBehaviour
         {
             if (obstacleLeft == "Environment")
             {
-                turnInputValue = -1;
+                turnInputValue = 1;
             }
 
             if (obstacleLeft == "Tank")
@@ -123,7 +123,7 @@ public class JannisBrain : MonoBehaviour
         {
             if(obstacleRight == "Environment")
             {
-                turnInputValue = 1;
+                turnInputValue = -1;
             }
 
             if(obstacleRight == "Tank")
