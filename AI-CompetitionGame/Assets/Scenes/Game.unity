@@ -162,7 +162,7 @@ PrefabInstance:
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
@@ -236,7 +236,7 @@ PrefabInstance:
     - target: {fileID: 3229809929377451254, guid: 063970fe4209e5c45a03a34279fde2aa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3229809929377451254, guid: 063970fe4209e5c45a03a34279fde2aa,
         type: 3}
@@ -255,6 +255,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 063970fe4209e5c45a03a34279fde2aa, type: 3}
+--- !u!1 &941726309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941726311}
+  - component: {fileID: 941726310}
+  m_Layer: 0
+  m_Name: CameraRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &941726310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941726309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 952bdb9665187af499f2997baec67c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DampTime: 0.2
+  m_ScreenEdgeBuffer: 60
+  m_MinSize: 6.5
+  m_Targets:
+  - {fileID: 1555257114}
+  - {fileID: 1465899564}
+--- !u!4 &941726311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941726309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 62.14981, y: 13.943089, z: -42.35871}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1891015172}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1465899564 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1798197907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1555257114 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
+    type: 3}
+  m_PrefabInstance: {fileID: 169736765}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1670685047
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +384,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 40, y: -57.7, z: 0}
 --- !u!1001 &1798197907
 PrefabInstance:
@@ -333,7 +395,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1332592781, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_Name
-      value: ShamilTank 1
+      value: Shamil
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -365,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -477,9 +539,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891015169}
   m_LocalRotation: {x: 0.3295829, y: -0.35750458, z: 0.1365177, w: 0.8630924}
-  m_LocalPosition: {x: 99.3, y: 127.7, z: -84.5}
+  m_LocalPosition: {x: 37.150192, y: 113.75691, z: -42.14129}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 941726311}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 41.8, y: -45, z: 0}
