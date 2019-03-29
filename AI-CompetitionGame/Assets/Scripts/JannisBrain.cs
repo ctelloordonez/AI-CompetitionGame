@@ -156,6 +156,11 @@ public class JannisBrain : MonoBehaviour
         if(target != null && fleeing == false)
         {
             attackMode();
+            tank.TurnTurret();
+        }
+        if(target != null)
+        {
+            tank.TurnTurret();
         }
         if (fleeing == true)
         {
@@ -172,7 +177,6 @@ public class JannisBrain : MonoBehaviour
 
     private void attackMode()
     {
-        tank.TurnTurret();
         tank.Move(movementInputValue);
         Vector3 direction = tank.target.transform.position - tank.turretCanon.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);

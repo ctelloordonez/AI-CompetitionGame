@@ -157,16 +157,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 180
-  turnTurretSpeed: 90
+  turnTurretSpeed: 5
   speed: 12
+  detectionRadius: 15
+  detectionCycleTime: 1
+  target: {fileID: 0}
   heightMultiplier: 0
-  centerSightDist: 0
-  outerSightDist: 0
-  shell: {fileID: 0}
-  fireTransform: {fileID: 0}
-  shootSpeed: 0
-  cooldown: 0
-  turretCanon: {fileID: 0}
+  centerSightDist: 5
+  outerSightDist: 7
+  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
+  fireTransform: {fileID: 5180889705399618129}
+  shootSpeed: 6
+  cooldown: 3
+  turretCanon: {fileID: 1043270149321641706}
   Targetpoint: {x: 0, y: 0, z: 0}
 --- !u!114 &202205915838282115
 MonoBehaviour:
@@ -181,10 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  interceptPoint: {x: 0, y: 0, z: 0}
   shotSpeed: 0
-  detectionRadius: 0
-  detectionCycleTime: 1
+  detectionRadius: 20
   movementInputValue: 0
   turnInputValue: 0
 --- !u!1 &1043270149321413380
