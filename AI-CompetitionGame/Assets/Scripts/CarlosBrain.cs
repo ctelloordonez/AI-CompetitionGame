@@ -5,6 +5,7 @@ using UnityEngine;
 public class CarlosBrain : MonoBehaviour
 {
     Tank tank;
+    GameObject target;
 
     float movementInputValue;
     float turnInputValue;
@@ -37,6 +38,8 @@ public class CarlosBrain : MonoBehaviour
 
         tank.Move(movementInputValue);
         tank.Turn(turnInputValue);
+
+        target = tank.target;
     }
 
     private void FixedUpdate()
@@ -45,16 +48,33 @@ public class CarlosBrain : MonoBehaviour
         obstacleAhead = tank.ObstacleAhead();
         obstacleRight = tank.ObstacleRight();
 
-        if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")
+        /*if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")
         {
             if (obstacleAhead == "Tank")
             {
                 movementInputValue = 0;
                 tank.Fire();
             }
+        }*/
+
+        if(target != null)
+        {
+            movementInputValue = 0.2f;
+
+            tank.Targetpoint = target.transform.position;
+            tank.TurnTurret();
+
+            Vector3 aimDirection = target.transform.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
+
+            float angle = Quaternion.Angle(transform.rotation, lookRotation);
+            if(angle < 5f)
+            {
+                tank.Fire();
+            }
         }
 
-        else if (obstacleAhead == "Environment")
+        if (obstacleAhead == "Environment")
         {
             if (obstacleRight == "Environment" && obstacleLeft == "Environment")     // If there are obsctacle ahead, right and left,
             {
