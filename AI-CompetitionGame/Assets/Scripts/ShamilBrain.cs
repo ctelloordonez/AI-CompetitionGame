@@ -39,40 +39,44 @@ public class ShamilBrain : MonoBehaviour
 
 
         //check for surface
-        if(obstacleAhead == "Environment")
+        if(obstacleAhead == "Environment" && obstacleRight == "Environment")
         {
             movementInputValue = 0;
-            turnInputValue = 1;
-        }
-        else
-        {
-            movementInputValue = 1;
-            turnInputValue = 0;
-        }
-
-        if(obstacleLeft == "Environment")
-        {
-            movementInputValue = 0;
-            turnInputValue = 1;
-        }
-        else
-        {
-            movementInputValue = 1;
-            turnInputValue = 0;
-        }
-
-        if (obstacleRight == "Environment")
-        {
             turnInputValue = -1;
-            movementInputValue = 0;
-
         }
+
+        else if(obstacleAhead == "Environment" && obstacleLeft == "Environment")
+        {
+            movementInputValue = 0;
+            turnInputValue = 1;
+        }
+        else if(obstacleAhead == "Environment" && obstacleLeft == "Environment" && obstacleRight == "Environment")
+        {
+            movementInputValue = 0;
+            turnInputValue = 1;
+        }
+
         else
         {
-            movementInputValue = 1;
-            turnInputValue = 0;
-        }
+            if (obstacleLeft == "Environment")
+            {
+                movementInputValue = 0;
+                turnInputValue = 1;
+            }
+           
+          else  if (obstacleRight == "Environment")
+          {
+                turnInputValue = -1;
+                movementInputValue = 0;
 
+            }
+            else
+            {
+                movementInputValue = 1;
+                turnInputValue = 0;
+            }
+        }
+ 
 
         //check for tanks
         if(obstacleAhead == "Tank" || obstacleRight == "Tank" || obstacleLeft == "Tank")
@@ -90,4 +94,11 @@ public class ShamilBrain : MonoBehaviour
             tank.TurnTurret();
         }
     }
+
+    void TurntTurretOriginalPos()
+    {
+
+    }
+
+    
 }
