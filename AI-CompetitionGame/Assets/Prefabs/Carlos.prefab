@@ -92,8 +92,6 @@ GameObject:
   - component: {fileID: 1043270149321413377}
   - component: {fileID: 7331822234298829639}
   - component: {fileID: 5470077063490388911}
-  - component: {fileID: 5163982737688418317}
-  - component: {fileID: 2995753086280828741}
   m_Layer: 0
   m_Name: Carlos
   m_TagString: Tank
@@ -184,40 +182,6 @@ MonoBehaviour:
   bulletCooldown: 0
   turretCanon: {fileID: 1043270149321641706}
   Targetpoint: {x: 0, y: 0, z: 0}
---- !u!114 &5163982737688418317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043270149321413378}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ddd2ce8a776eb43b38e46899953495, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnSpeed: 180
-  turnTurretSpeed: 90
-  speed: 12
-  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
-  fireTransform: {fileID: 5180889705399618129}
-  shootSpeed: 30
-  cooldown: 2
---- !u!114 &2995753086280828741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043270149321413378}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20ef0041348dd6f4e8d7fd01f6c29948, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heightMultiplier: 2.88
-  centerSightDist: 20
-  outerSightDist: 15
 --- !u!1 &1043270149321413380
 GameObject:
   m_ObjectHideFlags: 0
