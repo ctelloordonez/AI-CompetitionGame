@@ -6,10 +6,11 @@ public interface ITank
     float GetHealth();
     void TakeDamage(float damage);
 
-    void Move();
-    void Turn();
+    void Move(float movementInputValue);
+    void Turn(float turnInputValue);
     void TurnTurret();
     void Fire();
-    void ChangeAmmo();
-    void CheckSurface();
+    string ObstacleAhead();
+    string ObstacleRight();
+    string ObstacleLeft();
 }

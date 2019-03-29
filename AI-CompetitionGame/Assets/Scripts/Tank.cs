@@ -7,13 +7,12 @@ public class Tank : MonoBehaviour, ITank
     // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
     public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
-    
+
 
     // movement
     public float speed = 12f;               // Movement speed of the tank.
     private Rigidbody m_Rigidbody;
-    private float movementInputValue;
-    private float turnInputValue;
+
 
     // object detection
     public float heightMultiplier;          // Y Offset for the sight
@@ -24,94 +23,73 @@ public class Tank : MonoBehaviour, ITank
     private bool obstacleAhead = false;
     public float stoppingDist;
 
-    private TankVision vision;
+    // shoot
+    public Rigidbody shell;
+    public Transform fireTransform;
+    public float shootSpeed;
+    public float cooldown;
+    public float bulletCooldown;
 
+    private float timeShot;
+    
+
+    public Transform turretCanon;
+
+    private Quaternion _lookRotation;
+    private Vector3 _direction;
+
+    public Vector3 Targetpoint;
+
+    private float health;
 
     // Start is called before the first frame update
     void Start()
     {
-        movementInputValue = 1;
-        turnInputValue = 0;
-        m_Rigidbody = GetComponent<Rigidbody> ();
-
-        vision = GetComponent<TankVision>();
+        m_Rigidbody = GetComponent<Rigidbody>();
+        health = 100;
+        timeShot = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        /*
-        if (obstacleLeft)
-            turnInputValue = 1;
-        if (obstacleRight)
-            turnInputValue = -1;
-        
-        if (obstacleRight && obstacleLeft)
-            turnInputValue = 1;
-        if(!obstacleAhead && !obstacleLeft && !obstacleRight)
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
+
+        if (timeShot > 0)
         {
-            movementInputValue = 1;
-            turnInputValue = 0;
+            timeShot -= Time.deltaTime;
         }
-        */
-    }
-
-    private void FixedUpdate()
-    {
-        obstacleAhead = vision.CheckAhead();
-        obstacleRight = vision.CheckRight();
-        obstacleLeft = vision.CheckLeft();
-
-        if (!obstacleAhead && !obstacleLeft && !obstacleRight)
-        {
-            movementInputValue = 1;
-            turnInputValue = 0;
-        }
-
-        if (obstacleAhead)
-        {
-            if (obstacleRight)
-                turnInputValue = 1;
-            else
-                turnInputValue = -1;
-        }
-
-        if (obstacleLeft)
-            turnInputValue = 1;
-        else if (obstacleRight)
-            turnInputValue = -1;
-
-        //if (obstacleRight && obstacleLeft)
-            //turnInputValue = 1;
         
-
-        Move();
-        Turn();
-        //CheckSurface();
     }
 
     // Returns the current health of the tank
     public float GetHealth()
     {
-        return 0;
+        return health;
     }
 
     // Applie an specified amount of damage to the tank
     public void TakeDamage(float damage)
     {
+        health -= damage;
 
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // The tanks moves either forward or backwards
-    public void Move()
+    public void Move(float movementInputValue)
     {
         Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
     // The tank rotates to the right or to the left
-    public void Turn()
+    public void Turn(float turnInputValue)
     {
         float turn = turnInputValue * turnSpeed * Time.deltaTime;
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
@@ -121,74 +99,62 @@ public class Tank : MonoBehaviour, ITank
     // Rotates the direction the turret is aiming
     public void TurnTurret()
     {
+        //find the vector pointing from our position to the target
+        _direction = (Targetpoint - turretCanon.position).normalized;
 
+        //create the rotation we need to be in to look at the target
+        _lookRotation = Quaternion.LookRotation(_direction);
+
+        //rotate us over time according to speed until we are in the required rotation
+        turretCanon.transform.rotation = Quaternion.Slerp(turretCanon.rotation, _lookRotation, Time.deltaTime * turnTurretSpeed);
     }
 
     // Instantiates and fires a bullet
     public void Fire()
     {
-
+        if (timeShot <= 0)
+        {
+            timeShot = cooldown;
+            Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
+            shellInstance.velocity = shootSpeed * fireTransform.forward;
+            //timeShot = cooldown;
+        }
     }
 
-    // Changes the type of ammo the tank is shooting
-    public void ChangeAmmo()
-    {
-
-    }
-
-    // Checks the surface in order to recognice the terrain and move
-    public void CheckSurface()
+    public string ObstacleAhead()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.green); 
-        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.green); 
-        Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.green);
-        
-        if(Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, centerSightDist))
         {
-            if(hit.collider.gameObject.tag == "Environment")
-            {
-                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
-
-                //Debug.Log("Tank: Terrain is blocking my way upfront");
-                obstacleAhead = true;
-                float distance = stoppingDist - hit.distance;
-                Debug.Log(distance);
-                if(distance > 0)
-                {
-                    movementInputValue = 0;
-                    turnInputValue = 1;
-                }
-            } 
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * centerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
         }
-        else
-        {
-            obstacleAhead = false;
-        }
-        
-        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
-        {
-            if (hit.collider.gameObject.tag == "Environment")
-            {
-                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.red);
-                //Debug.Log("Tank: Terrain is blocking my way on the right");
-                obstacleRight = true;
-            }
 
-        }
-        else
-            obstacleRight = false;
+        return null;
+    }
 
+    public string ObstacleRight()
+    {
+        RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right), out hit, outerSightDist))
         {
-            if (hit.collider.gameObject.tag == "Environment")
-            {
-                Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.red);
-                //Debug.Log("Tank: Terrain is blocking my way on the left");
-                obstacleLeft = true;
-            }
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right) * outerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
         }
-        else
-            obstacleLeft = false;
+
+        return null;
+    }
+
+    public string ObstacleLeft()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
+        {
+            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right) * outerSightDist, Color.red);
+            return hit.collider.gameObject.tag;
+        }
+
+        return null;
     }
 }
+
