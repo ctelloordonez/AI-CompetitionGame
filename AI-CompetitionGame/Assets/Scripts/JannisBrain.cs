@@ -92,7 +92,7 @@ public class JannisBrain : MonoBehaviour
         {
             if (obstacleAhead == "Environment") // if ray hits part of the environment
             {
-                movementInputValue = 0;
+                movementInputValue = .5f;
             }
             if (obstacleAhead == "Tank") // if ray hits an enemy
             {
