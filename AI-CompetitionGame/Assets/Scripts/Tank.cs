@@ -46,6 +46,7 @@ public class Tank : MonoBehaviour, ITank
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        health = 100;
         timeShot = 0;
     }
 
@@ -113,9 +114,10 @@ public class Tank : MonoBehaviour, ITank
     {
         if (timeShot <= 0)
         {
-            Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
-            shellInstance.velocity = speed * fireTransform.forward;
             timeShot = cooldown;
+            Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
+            shellInstance.velocity = shootSpeed * fireTransform.forward;
+            //timeShot = cooldown;
         }
     }
 
