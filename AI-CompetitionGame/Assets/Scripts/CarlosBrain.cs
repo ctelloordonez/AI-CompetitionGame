@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CarlosBrain : MonoBehaviour
 {
+    public Transform ForwardFirePoint;
+
     Tank tank;
     GameObject target;
+    Transform turret;
 
     float movementInputValue;
     float turnInputValue;
@@ -20,6 +23,7 @@ public class CarlosBrain : MonoBehaviour
     private void Start()
     {
         tank = GetComponent<Tank>();
+        turret = tank.turretCanon.transform;
 
         movementInputValue = 1;
         turnInputValue = 0;
@@ -40,6 +44,33 @@ public class CarlosBrain : MonoBehaviour
         tank.Turn(turnInputValue);
 
         target = tank.target;
+
+        if (target != null)
+        {
+            tank.Targetpoint = target.transform.position;
+            tank.TurnTurret();
+
+            Vector3 aimDirection = target.transform.position - turret.position;
+            Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
+
+            float angle = Quaternion.Angle(turret.rotation, lookRotation);
+            if (angle < 15f)
+            {
+                tank.Fire();
+            }
+        }
+
+        /*else
+        {
+            tank.Targetpoint = ForwardFirePoint.position;
+
+            Vector3 aimDirection = tank.Targetpoint - turret.position;
+            Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
+
+            float angle = Quaternion.Angle(turret.rotation, lookRotation);
+            if (angle > 1f)
+                tank.TurnTurret();
+        }*/
     }
 
     private void FixedUpdate()
@@ -57,23 +88,15 @@ public class CarlosBrain : MonoBehaviour
             }
         }*/
 
-        if(target != null)
+        Vector3 aimDirection = transform.forward - turret.position;
+        Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
+        float angle = Quaternion.Angle(turret.rotation, lookRotation);
+        if (angle <= 1f)
         {
-            movementInputValue = 0.2f;
-
-            tank.Targetpoint = target.transform.position;
+            tank.Targetpoint = transform.forward.normalized;
             tank.TurnTurret();
-
-            Vector3 aimDirection = target.transform.position - transform.position;
-            Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
-
-            float angle = Quaternion.Angle(transform.rotation, lookRotation);
-            if(angle < 5f)
-            {
-                tank.Fire();
-            }
         }
-
+            
         if (obstacleAhead == "Environment")
         {
             if (obstacleRight == "Environment" && obstacleLeft == "Environment")     // If there are obsctacle ahead, right and left,
@@ -89,7 +112,7 @@ public class CarlosBrain : MonoBehaviour
 
             else
             {
-                if(obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then
+                if (obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then
                 {
                     if (!JustTurned())
                     {
@@ -98,7 +121,7 @@ public class CarlosBrain : MonoBehaviour
                     }
                 }
 
-                else if(obstacleRight == "Environment") // If there is an obstacle ahead and right, then turn left
+                else if (obstacleRight == "Environment") // If there is an obstacle ahead and right, then turn left
                 {
                     if (!JustTurned())
                     {
@@ -157,10 +180,10 @@ public class CarlosBrain : MonoBehaviour
             }
         }
 
-        if(timeLastTurn > 5)
+        if (timeLastTurn > 5)
         {
             turnInputValue = randomTurn;
-            if(timeLastTurn > 5.5f)
+            if (timeLastTurn > 5.5f)
                 timeLastTurn = 0;
         }
         else

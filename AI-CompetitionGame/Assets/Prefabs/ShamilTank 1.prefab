@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1624927719}
   - component: {fileID: 6117561066636645714}
-  - component: {fileID: 958382673730501593}
   - component: {fileID: 1332592782}
   - component: {fileID: 1332592783}
+  - component: {fileID: 7237203870442620815}
   m_Layer: 0
   m_Name: ShamilTank 1
   m_TagString: Tank
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332592781}
-  m_LocalRotation: {x: -0, y: 0.7082296, z: -0, w: 0.7059822}
+  m_LocalRotation: {x: 0, y: 0.708229, z: 0, w: 0.70598286}
   m_LocalPosition: {x: -18.3, y: 0, z: -14}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
@@ -51,20 +51,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 3
---- !u!136 &958382673730501593
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332592781}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1332592782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,9 +63,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7fc0ce30f377443ba379b3886ec696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 180
-  turnTurretSpeed: 90
-  speed: 12
 --- !u!114 &1332592783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,17 +76,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 180
-  turnTurretSpeed: 90
-  speed: 12
+  turnTurretSpeed: 5
+  speed: 10
+  detectionRadius: 30
+  detectionCycleTime: 1
+  target: {fileID: 0}
   heightMultiplier: 2.88
-  centerSightDist: 10
-  outerSightDist: 10
+  centerSightDist: 20
+  outerSightDist: 15
   shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
   fireTransform: {fileID: 2077043237}
-  shootSpeed: 20
+  shootSpeed: 30
   cooldown: 3
   turretCanon: {fileID: 184306609}
   Targetpoint: {x: 0, y: 0, z: 0}
+--- !u!65 &7237203870442620815
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332592781}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7, y: 1.9, z: 2.25}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &1011072232647880365
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011072232647880365}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 0.55700004, z: 1.44}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 184306609}
