@@ -127,7 +127,7 @@ PrefabInstance:
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 66.5
+      value: 72.4
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
@@ -137,7 +137,7 @@ PrefabInstance:
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.1
+      value: -60.1
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321641698, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
@@ -178,11 +178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470077063490388911, guid: 41a8a06cea6eefc47872a96a1f219907,
-        type: 3}
-      propertyPath: speed
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a8a06cea6eefc47872a96a1f219907, type: 3}
@@ -337,7 +332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.9
+      value: 52.6
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -345,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14
+      value: -30.8
       objectReference: {fileID: 0}
     - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -397,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
       propertyPath: turnTurretSpeed
-      value: 500
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
