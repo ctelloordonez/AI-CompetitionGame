@@ -182,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 5470077063490388911, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: speed
-      value: 12
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a8a06cea6eefc47872a96a1f219907, type: 3}
@@ -324,6 +324,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 40, y: -57.7, z: 0}
+--- !u!1001 &1798197907
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1332592781, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_Name
+      value: ShamilTank 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 76.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7082296
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7059822
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90.18201
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624927719, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: centerSightDist
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: outerSightDist
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: detectionRadius
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332592783, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
+      propertyPath: turnTurretSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2eaebcc7c8e25734da0515545cadcbf8, type: 3}
 --- !u!1 &1891015169
 GameObject:
   m_ObjectHideFlags: 0
