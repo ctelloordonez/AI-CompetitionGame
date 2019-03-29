@@ -4,34 +4,39 @@ using UnityEngine;
 
 public class JannisBrain : MonoBehaviour
 {
+    
+
+    #region References and Variables
+
     [Header("References")]
     [Tooltip("The target object will be used for the intercept calculations")]
-    [SerializeField] private GameObject target; // the target he picked from the enemy array - used for intercept calculation
-    private GameObject[] gos; // game object array for tanks
-    private GameObject shooter; // the tower - used for intercept calculation
-    private Tank tank;
+    [SerializeField] private GameObject target; // the target he picked to shoot at
+    private Tank tank; // reference for the tank script
 
 
     [Header("Extras needed for references or calculations")]
-    [Tooltip("speed of the projectile")]
-    public float shotSpeed = 0f;
-    private Transform canon;
+    private Transform canon; // the transform of the canon game object of my tank
 
     [Header("Detection")]
     [Tooltip("Radius for detecting enemy tanks")]
-    [SerializeField] private float detectionRadius = 0f;
-    private bool fleeing = false;
-    private float fleeTime = 3f;
+    [SerializeField] private float detectionRadius = 0f; // displays the detection radius of my tank
+    private bool fleeing = false; // used to swap between behaviour states // when true, the tank will change its current movement to avoid taking damage
+    private float fleeTime = 1f; // the time that the tank will flee
 
 
     [Header("Navigation")]
-    private string obstacleAhead;
+    private string obstacleAhead; 
     private string obstacleLeft;
     private string obstacleRight;
 
     [Header("Movement Values")]
-    public float movementInputValue;
-    public float turnInputValue;
+    private float movementInputValue;
+    private float turnInputValue;
+
+    #endregion
+
+
+    #region Unity Callbacks (Start, Update, FixedUpdate)
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +44,7 @@ public class JannisBrain : MonoBehaviour
         tank = GetComponent<Tank>();
         canon = tank.turretCanon;
         detectionRadius = tank.detectionRadius;
+        fleeTime = 1f;
     }
 
     // Update is called once per frame
@@ -60,9 +66,10 @@ public class JannisBrain : MonoBehaviour
             obstacleLeft = tank.ObstacleLeft();
             obstacleRight = tank.ObstacleRight();
             behaviorStateManager();
-
-
     }
+
+    #endregion
+
 
     #region Obstacle Checks
 
@@ -147,66 +154,75 @@ public class JannisBrain : MonoBehaviour
     }
     #endregion
 
+
     #region AI Preset Behaviors
 
+    /// <summary>
+    /// handles the changes in behavior of the tank based on gained Intel/Input of the Brain 
+    /// and the Sensors to its disposal
+    /// </summary>
     void behaviorStateManager()
     {
-        if(target == null && fleeing == false)
+        if(target == null && fleeing == false) // if the tank has no target or isnt fleeing from one
         {
             Wandering();
         }
-        if(target != null && fleeing == false)
+        if(target != null && fleeing == false) // if tank has found a target and isnt fleeing from one
         {
             attackMode();
             tank.TurnTurret();
         }
-        if(target != null)
+        if(target != null) // if tank has a target, it will always turn, no matter if he is fleeing or not
         {
             tank.TurnTurret();
         }
-        if (fleeing == true)
+        if (fleeing == true) // if the tank is fleeing after an engage
         {
             FleefromEnemy();
         } 
 
     }
 
-    private void Wandering()
+    /// <summary>
+    /// the tank wanders around the battleground
+    /// </summary>
+    private void Wandering() 
     {
         tank.Move(movementInputValue);
         tank.Turn(turnInputValue);
     }
 
+    /// <summary>
+    /// The tank prepares his attack and starts attacking when possible
+    /// </summary>
     private void attackMode()
     {
         tank.Move(movementInputValue);
         Vector3 direction = tank.target.transform.position - tank.turretCanon.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        if(Quaternion.Angle(tank.turretCanon.transform.rotation, lookRotation) <= 1f)
+        if(Quaternion.Angle(tank.turretCanon.transform.rotation, lookRotation) <= 2f)
         {
             tank.Fire();
             fleeing = true;
         }
     }
 
-    private void FleefromEnemy()
+    /// <summary>
+    /// After the tank has attacked, he will start a small manouver to possibly dodge bullets of an enemy
+    /// </summary>
+    private void FleefromEnemy() 
     {
         fleeTime -= Time.deltaTime;
-        if(fleeTime >= -1)
+        if(fleeTime > 0)
         {
-            tank.Move(1);
-            tank.Turn(turnInputValue);
+            tank.Move(-1f);
+            tank.Turn(.1f);
         }
-        if(fleeTime < 1)
-        {
-            tank.Move(-.5f);
-            tank.Turn(turnInputValue);
-        }
-
+       
         if(fleeTime <= 0)
         {
             fleeing = false;
-            fleeTime = 2;
+            fleeTime = 1f;
         }
     }
     #endregion
@@ -216,7 +232,7 @@ public class JannisBrain : MonoBehaviour
     #region Show Gizmos
     void OnDrawGizmosSelected()
     {
-        // Draw a sphere at the transform's position
+        // Draw a sphere at the transform's position to show the detection radius
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 

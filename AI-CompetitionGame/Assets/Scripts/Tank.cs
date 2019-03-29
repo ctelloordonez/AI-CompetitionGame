@@ -4,38 +4,45 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour, ITank
 {
-    // rotations  
-    public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
-    public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
-
-
-    // movement
-    public float speed = 12f;               // Movement speed of the tank.
-    private Rigidbody m_Rigidbody;
+    [Header("References to GameObjects or Components")]
+    public GameObject target = null; // target returned by the scan process for other tanks
+    private Rigidbody m_Rigidbody; // tanks rigidbody
     private GameObject closestEnemy = null; // the enemy tank closest to you
-    public float detectionRadius = 0f;
-    [SerializeField] private float detectionCycleTime = 1f;
-    public GameObject target = null;
-    // object detection
-    public float heightMultiplier;          // Y Offset for the sight
-    public float centerSightDist;           // The range of the AI sight
-    public float outerSightDist;
 
-    // shoot
-    public Rigidbody shell;
-    public Transform fireTransform;
-    public float shootSpeed;
-    public float cooldown;
-    private float timeShot;
 
+    [Header("Movement Settings & Rotation Speeds")]
     // turret rotation
     public Transform turretCanon;
+    // rotation speeds
+    [Tooltip("The speed that the tank can rotate with")] public float turnSpeed = 180f; 
+    [Tooltip("The speed that the canon can rotate with")] public float turnTurretSpeed = 90f; 
+
     public Vector3 Targetpoint;
     private Quaternion _lookRotation;
     private Vector3 _direction;
+    // movement
+    [Tooltip("Speed of the tank")] public float speed = 12f;
 
+
+    [Header("Detection Settings")]
+    public float detectionRadius = 0f;
+    [SerializeField] private float detectionCycleTime = 1f;
+
+    // object detection
+    [Tooltip("Y Offset for the detection Rays")] public float heightMultiplier; 
+    [Tooltip("The lenght of the center Ray")] public float centerSightDist; 
+    [Tooltip("The lenght of the outer Rays")] public float outerSightDist; 
+
+    [Header("References and settings for Shooting")]
+    public Rigidbody shell; // projectile
+    public Transform fireTransform; // spawnpoint of projectile
+    [Tooltip("Speed of the projectile")] public float shootSpeed; 
+    [Tooltip("Cooldown between each Shot")] public float cooldown; 
+    private float timeShot; // used to check for the cooldown
+
+    [Header("More settings")]
     // health
-    private float health;
+    [SerializeField] private float health;
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +127,10 @@ public class Tank : MonoBehaviour, ITank
         }
     }
 
+    /// <summary>
+    /// Checks for Obstacles ahead of the tank
+    /// </summary>
+    /// <returns> the tag ob the hit obstacle </returns>
     public string ObstacleAhead()
     {
         RaycastHit hit;
@@ -132,6 +143,10 @@ public class Tank : MonoBehaviour, ITank
         return null;
     }
 
+    /// <summary>
+    /// Checks for Obstacles on the left of the tank 
+    /// </summary>
+    /// <returns> the tag ob the hit obstacle </returns>
     public string ObstacleLeft()
     {
         RaycastHit hit;
@@ -144,6 +159,10 @@ public class Tank : MonoBehaviour, ITank
         return null;
     }
 
+    /// <summary>
+    /// Checks for Obstacles on the right of the tank 
+    /// </summary>
+    /// <returns> the tag ob the hit obstacle </returns>
     public string ObstacleRight()
     {
         RaycastHit hit;
