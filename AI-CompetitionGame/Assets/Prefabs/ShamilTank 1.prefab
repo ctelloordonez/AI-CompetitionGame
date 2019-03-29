@@ -75,12 +75,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76bd8f381335a3343bb5b961b15ebf4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  turretCanon: {fileID: 184306609}
   turnSpeed: 180
   turnTurretSpeed: 5
+  Targetpoint: {x: 0, y: 0, z: 0}
   speed: 10
   detectionRadius: 20
   detectionCycleTime: 1
-  target: {fileID: 0}
   heightMultiplier: 2.88
   centerSightDist: 15
   outerSightDist: 10
@@ -88,8 +90,7 @@ MonoBehaviour:
   fireTransform: {fileID: 2077043237}
   shootSpeed: 30
   cooldown: 3
-  turretCanon: {fileID: 184306609}
-  Targetpoint: {x: 0, y: 0, z: 0}
+  health: 0
 --- !u!65 &7237203870442620815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -460,7 +461,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4d8d51a6cb0acb746aa69bb781027897, type: 2}
+  - {fileID: 2100000, guid: 4cd9e8d57a46ff449aaf534303773fd1, type: 2}
   - {fileID: 2100000, guid: 146446ac010ed384299552a2e1d83171, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

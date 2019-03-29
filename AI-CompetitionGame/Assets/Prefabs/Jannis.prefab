@@ -142,12 +142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76bd8f381335a3343bb5b961b15ebf4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  turretCanon: {fileID: 1043270149321641706}
   turnSpeed: 180
   turnTurretSpeed: 5
+  Targetpoint: {x: 0, y: 0, z: 0}
   speed: 10
   detectionRadius: 20
   detectionCycleTime: 1
-  target: {fileID: 0}
   heightMultiplier: 2.88
   centerSightDist: 15
   outerSightDist: 10
@@ -155,8 +157,7 @@ MonoBehaviour:
   fireTransform: {fileID: 5180889705399618129}
   shootSpeed: 30
   cooldown: 3
-  turretCanon: {fileID: 1043270149321641706}
-  Targetpoint: {x: 0, y: 0, z: 0}
+  health: 0
 --- !u!114 &202205915838282115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  shotSpeed: 0
   detectionRadius: 20
-  movementInputValue: 0
-  turnInputValue: 0
 --- !u!65 &7723576983006269069
 BoxCollider:
   m_ObjectHideFlags: 0
