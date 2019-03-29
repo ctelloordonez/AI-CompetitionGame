@@ -18,10 +18,12 @@ public class ShamilBrain : MonoBehaviour
 
     private void Start()
     {
+
+        tank = GetComponent<Tank>();
         m_Rigidbody = GetComponent<Rigidbody>();
         movementInputValue = 1;
         turnInputValue = 0;
-        tank = GetComponent<Tank>();
+       
     }
 
     private void Update()
@@ -53,7 +55,7 @@ public class ShamilBrain : MonoBehaviour
         if(obstacleLeft == "Environment")
         {
             movementInputValue = 0;
-            turnInputValue = -1;
+            turnInputValue = 1;
         }
         else
         {
@@ -63,7 +65,7 @@ public class ShamilBrain : MonoBehaviour
 
         if (obstacleRight == "Environment")
         {
-            turnInputValue = 1;
+            turnInputValue = -1;
             movementInputValue = 0;
 
         }
@@ -81,5 +83,13 @@ public class ShamilBrain : MonoBehaviour
             tank.Fire();
         }
 
+        if(obstacleRight == "Tank")
+        {
+            tank.TurnTurret();
+        }
+        if(obstacleLeft == "Tank")
+        {
+            tank.TurnTurret();
+        }
     }
 }

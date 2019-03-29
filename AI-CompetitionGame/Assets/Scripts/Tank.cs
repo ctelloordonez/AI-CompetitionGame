@@ -133,7 +133,7 @@ public class Tank : MonoBehaviour, ITank
         return null;
     }
 
-    public string ObstacleRight()
+    public string ObstacleLeft()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right), out hit, outerSightDist))
@@ -145,7 +145,7 @@ public class Tank : MonoBehaviour, ITank
         return null;
     }
 
-    public string ObstacleLeft()
+    public string ObstacleRight()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right), out hit, outerSightDist))
