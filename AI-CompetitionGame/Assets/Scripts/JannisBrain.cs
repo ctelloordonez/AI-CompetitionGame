@@ -7,7 +7,6 @@ public class JannisBrain : MonoBehaviour
     [Header("References")]
     [Tooltip("The target object will be used for the intercept calculations")]
     [SerializeField] private GameObject target; // the target he picked from the enemy array - used for intercept calculation
-    private GameObject closestEnemy = null; // the enemy tank closest to you
     private GameObject[] gos; // game object array for tanks
     private GameObject shooter; // the tower - used for intercept calculation
     private Tank tank;
@@ -30,7 +29,6 @@ public class JannisBrain : MonoBehaviour
     [Header("Detection")]
     [Tooltip("Radius for detecting enemy tanks")]
     [SerializeField] private float detectionRadius = 0f;
-    [SerializeField] private float detectionCycleTime = 1f;
 
     [Header("Navigation")]
     private string obstacleAhead;
@@ -44,7 +42,6 @@ public class JannisBrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(scanCycle());
         shooter = this.gameObject;
         tank = GetComponent<Tank>();
         canon = tank.turretCanon;
@@ -59,6 +56,8 @@ public class JannisBrain : MonoBehaviour
         checkRightForObstacles();
         // grouped checks
         groupedCheck();
+
+        target = tank.target;
        
         
     }
@@ -179,6 +178,7 @@ public class JannisBrain : MonoBehaviour
     {
         tank.Targetpoint = target.transform.position;
         tank.TurnTurret();
+        tank.Move(movementInputValue);
         Vector3 direction = target.transform.position - canon.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         if(Quaternion.Angle(canon.rotation, lookRotation) <= 1f)
@@ -188,57 +188,6 @@ public class JannisBrain : MonoBehaviour
             target = null;
         }
     }
-
-
-
-    #endregion
-
-
-
-
-
-
-    //////////////////// Find closest enemy ////////////////////////
-    #region Find closest target 
-
-
-    /// <summary>
-    /// This function uses overlap sphere to find close enemy tanks by checking for the tag of hit objects
-    /// The closest hit enemy tank will be set as the go "closestEnemy" and used for the intercept point calculations
-    /// </summary>
-    private void FindTargetInSurroundingArea()
-    {
-        if (target == null)
-        {
-            Collider[] col = Physics.OverlapSphere(transform.position, detectionRadius); // draw a sphere at desire point based on player pos + offset and desired radius of effect
-            if (col.Length > 0)
-            {
-                float distance = Mathf.Infinity;
-                foreach (Collider hit in col) // checks each object hit
-                {
-                    if (hit.tag == "Tank" && hit.gameObject != this.gameObject) // if hit object has equal tag to tank tag and unequal to the tank its casted from
-                    {
-                        float diff = Vector3.Distance(transform.position, hit.transform.position);
-                        float curDistance = diff;
-                        if (curDistance < distance) // compare the distance between each hit tank. If distance to hit tank is smaller to the ones prev. checked
-                        { // do the following
-                            closestEnemy = hit.gameObject;
-                            distance = curDistance;
-                        }
-                    }
-                }
-                target = closestEnemy;
-            }
-        }
-        StartCoroutine(scanCycle());
-    }
-
-    private IEnumerator scanCycle()
-    {
-        yield return new WaitForSeconds(detectionCycleTime);
-        FindTargetInSurroundingArea();
-    }
-
     #endregion
 
 
