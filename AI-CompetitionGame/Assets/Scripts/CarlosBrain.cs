@@ -68,7 +68,7 @@ public class CarlosBrain : MonoBehaviour
 
             else
             {
-                if(obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then turn right
+                if(obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then
                 {
                     if (!JustTurned())
                     {
@@ -91,7 +91,7 @@ public class CarlosBrain : MonoBehaviour
                     movementInputValue = 0.5f;
                     if (!JustTurned())
                     {
-                        turnInputValue = -1;                                                   // turn right
+                        turnInputValue = -1;                                                   // turn left
                         timeLastTurn = 0;
                     }
                 }
@@ -123,7 +123,7 @@ public class CarlosBrain : MonoBehaviour
             {
                 if (!JustTurned())
                 {
-                    turnInputValue = -0.5f;                                                   // turn right
+                    turnInputValue = -0.5f;                                                   // turn left
                     timeLastTurn = 0;
                 }
             }
