@@ -2972,10 +2972,10 @@ MonoBehaviour:
   centerSightDist: 10
   outerSightDist: 10
   stoppingDist: 0.5
-  shell: {fileID: 7766665433842253994, guid: 209894fd322c1ae48b2840e8bf857c9f, type: 3}
+  shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
   fireTransform: {fileID: 2077043237}
-  shootSpeed: 0
-  cooldown: 0
+  shootSpeed: 20
+  cooldown: 3
   bulletCooldown: 0
   turretCanon: {fileID: 184306609}
   Targetpoint: {x: 0, y: 0, z: 0}
@@ -3974,12 +3974,12 @@ PrefabInstance:
     - target: {fileID: 1043270149321413378, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_TagString
-      value: EnemyTank
+      value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 1043270149321413378, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5180889705399618129, guid: 41a8a06cea6eefc47872a96a1f219907,
         type: 3}
