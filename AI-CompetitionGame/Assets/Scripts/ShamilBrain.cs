@@ -7,7 +7,6 @@ public class ShamilBrain : MonoBehaviour
     //get component of Tank.cs
     private Tank tank;
 
-
     //movement vars
     private float movementInputValue;
     private float turnInputValue;
@@ -22,7 +21,7 @@ public class ShamilBrain : MonoBehaviour
     private float turnTurretSpeed = 90f;
 
     //speed vars
-    public float speed = 12f;
+    private float speed = 12f;
     private Rigidbody m_Rigidbody;
 
     private void Start()
