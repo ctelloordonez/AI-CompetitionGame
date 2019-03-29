@@ -44,7 +44,7 @@ public class Tank : MonoBehaviour, ITank
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        health = 100;
+        health = 300;
         timeShot = 0;
     }
 

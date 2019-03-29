@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     Image healthBar;
-    float shamilHealth = 100f;
+    float maxHealth = 300;
     public static float health;
     public GameObject tank;
 
@@ -16,13 +16,18 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         healthBar = GetComponent<Image>();
-        health = tank.GetComponent<Tank>().GetHealth();
-
+        health = maxHealth;
     }
     // Update is called once per frame
     void Update()
     {
-        healthBar.fillAmount = health / shamilHealth;
+        if (tank != null)
+            health = tank.GetComponent<Tank>().GetHealth();
+
+        else
+            health = 0;
+
+        healthBar.fillAmount = health / maxHealth;
     }
    
 }
