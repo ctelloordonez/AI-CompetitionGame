@@ -18,26 +18,21 @@ public class Tank : MonoBehaviour, ITank
     public float heightMultiplier;          // Y Offset for the sight
     public float centerSightDist;           // The range of the AI sight
     public float outerSightDist;
-    private bool obstacleLeft = false;
-    private bool obstacleRight = false;
-    private bool obstacleAhead = false;
-    public float stoppingDist;
 
     // shoot
     public Rigidbody shell;
     public Transform fireTransform;
     public float shootSpeed;
     public float cooldown;
-    public float bulletCooldown;
-
     private float timeShot;
-    
+
+    // turret rotation
     public Transform turretCanon;
     public Vector3 Targetpoint;
-
     private Quaternion _lookRotation;
     private Vector3 _direction;
 
+    // health
     private float health;
 
     // Start is called before the first frame update

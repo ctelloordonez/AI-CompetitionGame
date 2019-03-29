@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Carlos : MonoBehaviour /*ITank*/
-{
+{/*
     // rotations  
     public float turnSpeed = 180f;          // Turning speed of the tank in degrees per second.
     public float turnTurretSpeed = 90f;     // Turning speed of the turret in degrees per second.
@@ -56,9 +56,9 @@ public class Carlos : MonoBehaviour /*ITank*/
 
     private void FixedUpdate()
     {
-        /*obstacleAhead = vision.ObstacleAhead();
+        obstacleAhead = vision.ObstacleAhead();
         obstacleRight = vision.ObstacleRight();
-        obstacleLeft = vision.ObstacleLeft();*/
+        obstacleLeft = vision.ObstacleLeft();
 
         if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")
         {
@@ -173,5 +173,5 @@ public class Carlos : MonoBehaviour /*ITank*/
     public void CheckSurface()
     {
 
-    }
+    }*/
 }
