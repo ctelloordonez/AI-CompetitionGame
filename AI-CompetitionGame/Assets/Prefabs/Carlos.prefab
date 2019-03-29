@@ -129,7 +129,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 3
 --- !u!65 &6401543885107289888
 BoxCollider:
@@ -172,12 +172,12 @@ MonoBehaviour:
   turnSpeed: 180
   turnTurretSpeed: 5
   speed: 10
-  detectionRadius: 30
+  detectionRadius: 20
   detectionCycleTime: 1
   target: {fileID: 0}
   heightMultiplier: 2.88
-  centerSightDist: 20
-  outerSightDist: 15
+  centerSightDist: 15
+  outerSightDist: 10
   shell: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72, type: 3}
   fireTransform: {fileID: 5180889705399618129}
   shootSpeed: 30
