@@ -13,7 +13,7 @@ public class Tank : MonoBehaviour, ITank
     public float speed = 12f;               // Movement speed of the tank.
     private Rigidbody m_Rigidbody;
     private GameObject closestEnemy = null; // the enemy tank closest to you
-    [SerializeField] private float detectionRadius = 0f;
+    public float detectionRadius = 0f;
     [SerializeField] private float detectionCycleTime = 1f;
     public GameObject target = null;
     // object detection

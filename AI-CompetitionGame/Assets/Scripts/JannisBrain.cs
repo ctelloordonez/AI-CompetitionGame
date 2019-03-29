@@ -38,6 +38,7 @@ public class JannisBrain : MonoBehaviour
     {
         tank = GetComponent<Tank>();
         canon = tank.turretCanon;
+        detectionRadius = tank.detectionRadius;
     }
 
     // Update is called once per frame
@@ -59,6 +60,7 @@ public class JannisBrain : MonoBehaviour
             obstacleLeft = tank.ObstacleLeft();
             obstacleRight = tank.ObstacleRight();
             behaviorStateManager();
+
 
     }
 
@@ -92,7 +94,7 @@ public class JannisBrain : MonoBehaviour
         {
             if (obstacleAhead == "Environment") // if ray hits part of the environment
             {
-                movementInputValue = .5f;
+                movementInputValue = 1f;
             }
             if (obstacleAhead == "Tank") // if ray hits an enemy
             {
