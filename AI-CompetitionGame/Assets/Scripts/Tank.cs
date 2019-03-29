@@ -57,7 +57,10 @@ public class Tank : MonoBehaviour, ITank
         {
             timeShot -= Time.deltaTime;
         }
-        
+        if(target != null)
+        {
+            Targetpoint = target.transform.position;
+        }
     }
 
     // Returns the current health of the tank
@@ -113,6 +116,7 @@ public class Tank : MonoBehaviour, ITank
             timeShot = cooldown;
             Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
             shellInstance.velocity = shootSpeed * fireTransform.forward;
+            target = null;
         }
     }
 
@@ -184,6 +188,7 @@ public class Tank : MonoBehaviour, ITank
                     }
                 }
                 target = closestEnemy;
+                closestEnemy = null;
             }
         }
         StartCoroutine(scanCycle());
