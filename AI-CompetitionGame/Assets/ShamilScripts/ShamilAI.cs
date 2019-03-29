@@ -77,21 +77,7 @@ public class ShamilAI : MonoBehaviour
             turnInputValue = 0;
         }
 
-        if(enemyTankAhead)
-        {
-            movementInputValue = 0;
-        }
-        if(enemyTankLeft)
-        {
-            movementInputValue = 0;
-            turnInputValue = 0;
-        }
-        if(enemyTankRight)
-        {
-            movementInputValue = 0;
-            turnInputValue = 0;
-        }
-            
+       
         if (timeShot > 0)
         {
             timeShot -= Time.deltaTime;
