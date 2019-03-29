@@ -11,15 +11,6 @@ public class JannisBrain : MonoBehaviour
     private GameObject shooter; // the tower - used for intercept calculation
     private Tank tank;
 
-    [Header("Intercept Point")]
-    //locations 
-    [Tooltip("the calculated point the tank will shoot at")]
-    public Vector3 interceptPoint;
-    private Vector3 shooterPosition; // tower position
-    private Vector3 targetPosition; // target position
-    //velocities
-    private Vector3 shooterVelocity; // tower velocity
-    private Vector3 targetVelocity; // target velocity, when working with nav mesh, access the agent velocity, not rigidbody
 
     [Header("Extras needed for references or calculations")]
     [Tooltip("speed of the projectile")]
@@ -29,6 +20,9 @@ public class JannisBrain : MonoBehaviour
     [Header("Detection")]
     [Tooltip("Radius for detecting enemy tanks")]
     [SerializeField] private float detectionRadius = 0f;
+    private bool fleeing = false;
+    private float fleeTime = 3f;
+
 
     [Header("Navigation")]
     private string obstacleAhead;
@@ -42,7 +36,6 @@ public class JannisBrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shooter = this.gameObject;
         tank = GetComponent<Tank>();
         canon = tank.turretCanon;
     }
@@ -56,19 +49,17 @@ public class JannisBrain : MonoBehaviour
         checkRightForObstacles();
         // grouped checks
         groupedCheck();
-
         target = tank.target;
-       
         
     }
 
     private void FixedUpdate()
     {
-        obstacleAhead = tank.ObstacleAhead();
-        obstacleLeft = tank.ObstacleLeft();
-        obstacleRight = tank.ObstacleRight();
-        behaviorStateManager();
-        
+            obstacleAhead = tank.ObstacleAhead();
+            obstacleLeft = tank.ObstacleLeft();
+            obstacleRight = tank.ObstacleRight();
+            behaviorStateManager();
+
     }
 
     #region Obstacle Checks
@@ -158,14 +149,19 @@ public class JannisBrain : MonoBehaviour
 
     void behaviorStateManager()
     {
-        if(target == null)
+        if(target == null && fleeing == false)
         {
             Wandering();
         }
-        if(target != null)
+        if(target != null && fleeing == false)
         {
             attackMode();
         }
+        if (fleeing == true)
+        {
+            FleefromEnemy();
+        } 
+
     }
 
     private void Wandering()
@@ -176,16 +172,35 @@ public class JannisBrain : MonoBehaviour
 
     private void attackMode()
     {
-        tank.Targetpoint = target.transform.position;
         tank.TurnTurret();
         tank.Move(movementInputValue);
-        Vector3 direction = target.transform.position - canon.position;
+        Vector3 direction = tank.target.transform.position - tank.turretCanon.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        if(Quaternion.Angle(canon.rotation, lookRotation) <= 1f)
+        if(Quaternion.Angle(tank.turretCanon.transform.rotation, lookRotation) <= 1f)
         {
             tank.Fire();
-            Debug.Log("could fire");
-            target = null;
+            fleeing = true;
+        }
+    }
+
+    private void FleefromEnemy()
+    {
+        fleeTime -= Time.deltaTime;
+        if(fleeTime >= -1)
+        {
+            tank.Move(1);
+            tank.Turn(turnInputValue);
+        }
+        if(fleeTime < 1)
+        {
+            tank.Move(-.5f);
+            tank.Turn(turnInputValue);
+        }
+
+        if(fleeTime <= 0)
+        {
+            fleeing = false;
+            fleeTime = 2;
         }
     }
     #endregion
@@ -200,116 +215,5 @@ public class JannisBrain : MonoBehaviour
     }
 
     #endregion
-
-
-
-    //////////////////// Intercept point /////////////////////////
-
-    private void CallInterceptPoint()
-    {
-        shooterPosition = shooter.transform.position;
-        targetPosition = target.transform.position;
-        shooterVelocity = shooter.GetComponent<Rigidbody>() ? shooter.GetComponent<Rigidbody>().velocity : Vector3.zero;
-        targetVelocity = target.GetComponent<Rigidbody>() ? target.GetComponent<Rigidbody>().velocity : Vector3.zero;
-        interceptPoint = FirstOrderIntercept
-        (
-            shooterPosition,
-            shooterVelocity,
-            shotSpeed,
-            targetPosition,
-            targetVelocity
-        );
-    }
-
-
-    #region Intercept Point calculation
-
-    /// <summary>
-    /// This Vector 3 calculates a point in the "future" on which a shot projectile of the tank is able to hit 
-    /// the targeted enemy tank. This point is calculated based on the current enemy tank and its own velocity and takes the travel 
-    /// time of the bullet into account.
-    /// Any changes in velocity on the enemy site can lead into the projectile missing its target
-    /// </summary>
-    /// <param name="shooterPosition"></param>
-    /// <param name="shooterVelocity"></param>
-    /// <param name="shotSpeed"></param>
-    /// <param name="targetPosition"></param>
-    /// <param name="targetVelocity"></param>
-    /// <returns></returns>
-    public static Vector3 FirstOrderIntercept
-        (
-            Vector3 shooterPosition,
-            Vector3 shooterVelocity,
-            float shotSpeed,
-            Vector3 targetPosition,
-            Vector3 targetVelocity
-        )
-
-    {
-        Vector3 targetRelativePosition = targetPosition - shooterPosition;
-        Vector3 targetRelativeVelocity = targetVelocity - shooterVelocity;
-        float t = FirstOrderInterceptTime
-        (
-            shotSpeed,
-            targetRelativePosition,
-            targetRelativeVelocity
-        );
-        return targetPosition + t * (targetRelativeVelocity);
-    }
-    //first-order intercept using relative target position
-    public static float FirstOrderInterceptTime
-    (
-        float shotSpeed,
-        Vector3 targetRelativePosition,
-        Vector3 targetRelativeVelocity
-    )
-    {
-        float velocitySquared = targetRelativeVelocity.sqrMagnitude;
-        if (velocitySquared < 0.001f)
-            return 0f;
-
-        float a = velocitySquared - shotSpeed * shotSpeed;
-
-        //handle similar velocities
-        if (Mathf.Abs(a) < 0.001f)
-        {
-            float t = -targetRelativePosition.sqrMagnitude /
-            (
-                2f * Vector3.Dot
-                (
-                    targetRelativeVelocity,
-                    targetRelativePosition
-                )
-            );
-            return Mathf.Max(t, 0f); //don't shoot back in time
-        }
-
-        float b = 2f * Vector3.Dot(targetRelativeVelocity, targetRelativePosition);
-        float c = targetRelativePosition.sqrMagnitude;
-        float determinant = b * b - 4f * a * c;
-
-        if (determinant > 0f)
-        { //determinant > 0; two intercept paths (most common)
-            float t1 = (-b + Mathf.Sqrt(determinant)) / (2f * a),
-                    t2 = (-b - Mathf.Sqrt(determinant)) / (2f * a);
-            if (t1 > 0f)
-            {
-                if (t2 > 0f)
-                    return Mathf.Min(t1, t2); //both are positive
-                else
-                    return t1; //only t1 is positive
-            }
-            else
-                return Mathf.Max(t2, 0f); //don't shoot back in time
-        }
-        else if (determinant < 0f) //determinant < 0; no intercept path
-            return 0f;
-        else //determinant = 0; one intercept path, pretty much never happens
-            return Mathf.Max(-b / (2f * a), 0f); //don't shoot back in time
-    }
-
-    #endregion
-
-
 
 }
