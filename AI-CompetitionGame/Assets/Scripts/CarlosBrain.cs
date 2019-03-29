@@ -45,9 +45,10 @@ public class CarlosBrain : MonoBehaviour
 
         target = tank.target;
 
-        if (target != null)
+        if (target != null)                 // if a target is in range, rotate the turret aiming it
         {
             tank.Targetpoint = target.transform.position;
+            tank.Targetpoint.y = turret.position.y;
             tank.TurnTurret();
 
             Vector3 aimDirection = target.transform.position - turret.position;
@@ -60,7 +61,7 @@ public class CarlosBrain : MonoBehaviour
             }
         }
 
-        /*else
+        else                                // if not, rotate the turret back to the forward position
         {
             tank.Targetpoint = ForwardFirePoint.position;
 
@@ -70,7 +71,7 @@ public class CarlosBrain : MonoBehaviour
             float angle = Quaternion.Angle(turret.rotation, lookRotation);
             if (angle > 1f)
                 tank.TurnTurret();
-        }*/
+        }
     }
 
     private void FixedUpdate()
@@ -79,63 +80,63 @@ public class CarlosBrain : MonoBehaviour
         obstacleAhead = tank.ObstacleAhead();
         obstacleRight = tank.ObstacleRight();
 
-        /*if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")
+        if (obstacleAhead == "Tank" || obstacleLeft == "Tank" || obstacleRight == "Tank")       // If there is other tank in front, it turns towards the opposite direction
         {
             if (obstacleAhead == "Tank")
             {
-                movementInputValue = 0;
-                tank.Fire();
+                turnInputValue = -1;
             }
-        }*/
 
-        Vector3 aimDirection = transform.forward - turret.position;
-        Quaternion lookRotation = Quaternion.LookRotation(aimDirection);
-        float angle = Quaternion.Angle(turret.rotation, lookRotation);
-        if (angle <= 1f)
-        {
-            tank.Targetpoint = transform.forward.normalized;
-            tank.TurnTurret();
+            else if (obstacleLeft == "Tank")
+            {
+                turnInputValue = 1;
+            }
+
+            else if (obstacleRight == "Tank")
+            {
+                turnInputValue = -1;
+            }
         }
             
-        if (obstacleAhead == "Environment")
+        else if (obstacleAhead == "Environment")                                     // If there are obsctacle ahead, 
         {
-            if (obstacleRight == "Environment" && obstacleLeft == "Environment")     // If there are obsctacle ahead, right and left,
+            if (obstacleRight == "Environment" && obstacleLeft == "Environment")     //right and left,
             {
                 movementInputValue = 0;                                              // then stop,
 
                 if (!JustTurned())
                 {
-                    turnInputValue = 1;                                                   // turn right
+                    turnInputValue = 1;                                                   // and turn right.
                     timeLastTurn = 0;
                 }
             }
 
-            else
+            else                                                                    // If there are obsctacle ahead, 
             {
-                if (obstacleLeft == "Environment")       // If there is an obstacle ahead and left, then
+                if (obstacleLeft == "Environment")                                  // and left, then
                 {
                     if (!JustTurned())
                     {
-                        turnInputValue = 1;                                                   // turn right
+                        turnInputValue = 1;                                         // turn right
                         timeLastTurn = 0;
                     }
                 }
 
-                else if (obstacleRight == "Environment") // If there is an obstacle ahead and right, then turn left
+                else if (obstacleRight == "Environment") // If there is an obstacle ahead and right, 
                 {
                     if (!JustTurned())
                     {
-                        turnInputValue = -1;                                                   // turn right
+                        turnInputValue = -1;                                                   // then turn left
                         timeLastTurn = 0;
                     }
                 }
 
-                else                                    // If the obstacle is ahead, then slowdown and turn left
+                else                                    // If the obstacle is ahead, 
                 {
-                    movementInputValue = 0.5f;
+                    movementInputValue = 0.5f;          // then slowdown and turn left
                     if (!JustTurned())
                     {
-                        turnInputValue = -1;                                                   // turn left
+                        turnInputValue = -1;            // and turn left
                         timeLastTurn = 0;
                     }
                 }
@@ -146,29 +147,28 @@ public class CarlosBrain : MonoBehaviour
         {
             if (obstacleLeft == "Environment")
             {
-                if (obstacleRight == "Environment")     // If there is an obstacle right and left, then keep moving without turning
+                if (obstacleRight == "Environment")     // If there is an obstacle right and left, 
                 {
-                    movementInputValue = 1;
-                    turnInputValue = 0;
+                    movementInputValue = 1;             // then keep moving 
+                    turnInputValue = 0;                 // without turning
                     timeLastTurn = 0;
                 }
 
-                else                                    // If there is an obstacle left, then turn right
+                else                                    // If there is an obstacle left, 
                 {
                     if (!JustTurned())
                     {
-                        turnInputValue = 0.5f;                                                   // turn right
+                        turnInputValue = 0.5f;          // then turn right
+                        timeLastTurn = 0;
                     }
-                    turnInputValue = 0.5f;
-                    timeLastTurn = 0;
                 }
             }
 
-            else if (obstacleRight == "Environment")    // If ther is an obstacle right, then turn left
+            else if (obstacleRight == "Environment")    // If ther is an obstacle right,
             {
                 if (!JustTurned())
                 {
-                    turnInputValue = -0.5f;                                                   // turn left
+                    turnInputValue = -0.5f;             // then turn left
                     timeLastTurn = 0;
                 }
             }
@@ -180,21 +180,21 @@ public class CarlosBrain : MonoBehaviour
             }
         }
 
-        if (timeLastTurn > 5)
+        if (timeLastTurn > 5)                           // If it has not turned in five seconds, 
         {
-            turnInputValue = randomTurn;
+            turnInputValue = randomTurn;                // then turn with a random direction during 0.5 seconds.
             if (timeLastTurn > 5.5f)
                 timeLastTurn = 0;
         }
         else
         {
-            randomTurn = Random.Range(-1, 1);
+            randomTurn = Random.Range(-0.75f, 0.75f);
         }
 
         lastTurn = turnInputValue;
     }
 
-    private bool JustTurned()
+    private bool JustTurned()                           // Check if the tank has turned 0.25 seconds ago
     {
         if (timeLastTurn < 0.25)
         {
