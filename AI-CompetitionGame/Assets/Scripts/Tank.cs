@@ -12,8 +12,10 @@ public class Tank : MonoBehaviour, ITank
     // movement
     public float speed = 12f;               // Movement speed of the tank.
     private Rigidbody m_Rigidbody;
-
-
+    private GameObject closestEnemy = null; // the enemy tank closest to you
+    [SerializeField] private float detectionRadius = 0f;
+    [SerializeField] private float detectionCycleTime = 1f;
+    public GameObject target = null;
     // object detection
     public float heightMultiplier;          // Y Offset for the sight
     public float centerSightDist;           // The range of the AI sight
@@ -41,6 +43,7 @@ public class Tank : MonoBehaviour, ITank
         m_Rigidbody = GetComponent<Rigidbody>();
         health = 300;
         timeShot = 0;
+        StartCoroutine(scanCycle());
     }
 
     // Update is called once per frame
@@ -148,5 +151,51 @@ public class Tank : MonoBehaviour, ITank
 
         return null;
     }
+
+
+    //////////////////// Find closest enemy ////////////////////////
+    #region Find closest target 
+
+
+    /// <summary>
+    /// This function uses overlap sphere to find close enemy tanks by checking for the tag of hit objects
+    /// The closest hit enemy tank will be set as the go "closestEnemy" and used for the intercept point calculations
+    /// </summary>
+    public void FindTargetInSurroundingArea()
+    {
+        if (target == null)
+        {
+            Collider[] col = Physics.OverlapSphere(transform.position, detectionRadius); // draw a sphere at desire point based on player pos + offset and desired radius of effect
+            if (col.Length > 0)
+            {
+                float distance = Mathf.Infinity;
+                foreach (Collider hit in col) // checks each object hit
+                {
+                    if (hit.tag == "Tank" && hit.gameObject != this.gameObject) // if hit object has equal tag to tank tag and unequal to the tank its casted from
+                    {
+                        Debug.Log("checking");
+                        float diff = Vector3.Distance(transform.position, hit.transform.position);
+                        float curDistance = diff;
+                        if (curDistance < distance) // compare the distance between each hit tank. If distance to hit tank is smaller to the ones prev. checked
+                        { // do the following
+                            closestEnemy = hit.gameObject;
+                            distance = curDistance;
+                        }
+                    }
+                }
+                target = closestEnemy;
+            }
+        }
+        StartCoroutine(scanCycle());
+    }
+
+    private IEnumerator scanCycle()
+    {
+        yield return new WaitForSeconds(detectionCycleTime);
+        FindTargetInSurroundingArea();
+    }
+
+    #endregion
+
 }
 
