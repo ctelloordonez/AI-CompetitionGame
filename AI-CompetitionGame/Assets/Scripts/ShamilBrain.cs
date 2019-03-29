@@ -18,12 +18,10 @@ public class ShamilBrain : MonoBehaviour
 
     private void Start()
     {
-
         tank = GetComponent<Tank>();
         m_Rigidbody = GetComponent<Rigidbody>();
         movementInputValue = 1;
-        turnInputValue = 0;
-       
+        turnInputValue = 0;       
     }
 
     private void Update()

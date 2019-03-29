@@ -71,7 +71,6 @@ public class CarlosBrain : MonoBehaviour
                     turnInputValue = 1;
                 }
             }
-
             
         }
 
