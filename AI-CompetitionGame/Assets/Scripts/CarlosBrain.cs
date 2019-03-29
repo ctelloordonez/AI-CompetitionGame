@@ -41,8 +41,6 @@ public class CarlosBrain : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(timeLastTurn);
-
         obstacleLeft = tank.ObstacleLeft();
         obstacleAhead = tank.ObstacleAhead();
         obstacleRight = tank.ObstacleRight();
