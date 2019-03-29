@@ -105,7 +105,7 @@ public class Tank : MonoBehaviour, ITank
         //create the rotation we need to be in to look at the target
         _lookRotation = Quaternion.LookRotation(_direction);
 
-        //rotate us over time according to speed until we are in the required rotation
+        //rotate over time according to speed until desired rotation is reached
         turretCanon.transform.rotation = Quaternion.Slerp(turretCanon.rotation, _lookRotation, Time.deltaTime * turnTurretSpeed);
     }
 

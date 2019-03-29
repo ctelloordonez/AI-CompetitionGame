@@ -118,6 +118,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 230284185}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &33315950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5180889705399618129, guid: 5cf8bf43e381835439f85a0d21e88dd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 823507208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &39627977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 431444, guid: 5e617e90ac28ce7488be6a63235b1f32,
@@ -518,7 +524,7 @@ Transform:
   m_LocalScale: {x: 208.50204, y: 204.27396, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &345919552
 PrefabInstance:
@@ -1116,7 +1122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77146ea0957a8284b8fe49a5c52c0b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 1854374211}
   smoothing: 5
 --- !u!4 &562657795 stripped
 Transform:
@@ -1606,6 +1612,22 @@ PrefabInstance:
       propertyPath: turretCanon
       value: 
       objectReference: {fileID: 823507210}
+    - target: {fileID: 2715854816409357506, guid: 5cf8bf43e381835439f85a0d21e88dd6,
+        type: 3}
+      propertyPath: fireTransform
+      value: 
+      objectReference: {fileID: 33315950}
+    - target: {fileID: 2715854816409357506, guid: 5cf8bf43e381835439f85a0d21e88dd6,
+        type: 3}
+      propertyPath: shell
+      value: 
+      objectReference: {fileID: 8629095705430005600, guid: ca270b17fc438a245b88604305cb7b72,
+        type: 3}
+    - target: {fileID: 2715854816409357506, guid: 5cf8bf43e381835439f85a0d21e88dd6,
+        type: 3}
+      propertyPath: turnTurretSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 202205915838282115, guid: 5cf8bf43e381835439f85a0d21e88dd6,
         type: 3}
       propertyPath: detectionRadius
@@ -1613,31 +1635,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cf8bf43e381835439f85a0d21e88dd6, type: 3}
---- !u!1 &823507209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1043270149321413378, guid: 5cf8bf43e381835439f85a0d21e88dd6,
-    type: 3}
-  m_PrefabInstance: {fileID: 823507208}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &823507210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1043270149321641706, guid: 5cf8bf43e381835439f85a0d21e88dd6,
     type: 3}
   m_PrefabInstance: {fileID: 823507208}
   m_PrefabAsset: {fileID: 0}
---- !u!135 &823507211
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823507209}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &849443765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,7 +2796,7 @@ GameObject:
   - component: {fileID: 1600918836}
   m_Layer: 0
   m_Name: Tank (1)
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2831,6 +2834,11 @@ MonoBehaviour:
   centerSightDist: 10
   outerSightDist: 10
   stoppingDist: 6
+  shell: {fileID: 0}
+  fireTransform: {fileID: 0}
+  shootSpeed: 0
+  cooldown: 0
+  bulletCooldown: 0
   turretCanon: {fileID: 0}
   Targetpoint: {x: 0, y: 0, z: 0}
 --- !u!54 &1600918834
@@ -2877,7 +2885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shell: {fileID: 1600918834}
-  fireTransform: {fileID: 0}
+  fireTransform: {fileID: 1302513105}
   speed: 0
   cooldown: 0
   bulletCooldown: 0
@@ -3335,6 +3343,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 27bfdb9a40efac94b969eaf77cea92d9,
     type: 3}
   m_PrefabInstance: {fileID: 975885938}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1854374211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1043270149321641698, guid: 5cf8bf43e381835439f85a0d21e88dd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 823507208}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1897032630 stripped
 Transform:

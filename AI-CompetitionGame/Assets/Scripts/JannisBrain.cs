@@ -1,20 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
+
 public class JannisBrain : MonoBehaviour
 {
-    /*
     [Header("References")]
     [Tooltip("The target object will be used for the intercept calculations")]
-    private GameObject Target = null; // replace this go with a target found from the search mechanism
-    public GameObject closestEnemy = null; // the enemy tank closest to you
+    [SerializeField] private GameObject target; // the target he picked from the enemy array - used for intercept calculation
+    private GameObject closestEnemy = null; // the enemy tank closest to you
     private GameObject[] gos; // game object array for tanks
-    public GameObject shooter; // the tower - used for intercept calculation
-    private GameObject target; // the target he picked from the enemy array - used for intercept calculation
+    private GameObject shooter; // the tower - used for intercept calculation
+    private Tank tank;
 
-
-    [Header("Positions")]
+    [Header("Intercept Point")]
     //locations 
     [Tooltip("the calculated point the tank will shoot at")]
     public Vector3 interceptPoint;
@@ -27,88 +25,181 @@ public class JannisBrain : MonoBehaviour
     [Header("Extras needed for references or calculations")]
     [Tooltip("speed of the projectile")]
     public float shotSpeed = 0f;
-    [Tooltip("When True, a tank is inside the detection radius")]
-    public bool enemyTankInRange = false;
+    private Transform canon;
 
     [Header("Detection")]
     [Tooltip("Radius for detecting enemy tanks")]
     [SerializeField] private float detectionRadius = 0f;
     [SerializeField] private float detectionCycleTime = 1f;
 
+    [Header("Navigation")]
+    private string obstacleAhead;
+    private string obstacleLeft;
+    private string obstacleRight;
+
+    [Header("Movement Values")]
+    public float movementInputValue;
+    public float turnInputValue;
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(scanCycle());
         shooter = this.gameObject;
+        tank = GetComponent<Tank>();
+        canon = tank.turretCanon;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (obstacleLeft)
-            turnInputValue = 1;
-        if (obstacleRight)
-            turnInputValue = -1;
+        // individual obstacle checks for each ray and changes in movement
+        checkFrontForObstacles();
+        checkLeftForObstacles();
+        checkRightForObstacles();
+        // grouped checks
+        groupedCheck();
+       
+        
+    }
 
-        if (obstacleRight && obstacleLeft)
-            turnInputValue = 1;
-        if (!obstacleAhead && !obstacleLeft && !obstacleRight)
+    private void FixedUpdate()
+    {
+        obstacleAhead = tank.ObstacleAhead();
+        obstacleLeft = tank.ObstacleLeft();
+        obstacleRight = tank.ObstacleRight();
+        behaviorStateManager();
+        
+    }
+
+    #region Obstacle Checks
+
+    /// <summary>
+    /// checks for obstacles on the left and adjusts movement accordingly
+    /// </summary>
+    private void checkLeftForObstacles()
+    {
+        if (obstacleLeft != null && obstacleRight == null)
+        {
+            if (obstacleLeft == "Environment")
+            {
+                turnInputValue = -1;
+            }
+
+            if (obstacleLeft == "Tank")
+            {
+                // check for health or more
+            }
+        }
+    }
+
+    /// <summary>
+    /// checks for obstacles ahead
+    /// </summary>
+    private void checkFrontForObstacles()
+    {
+        if (obstacleAhead != null) // if there is an collider hit by the ray
+        {
+            if (obstacleAhead == "Environment") // if ray hits part of the environment
+            {
+                movementInputValue = 0;
+            }
+            if (obstacleAhead == "Tank") // if ray hits an enemy
+            {
+                // check for health and more
+            }
+        }
+        else // if there is nothing hit by the ray
+        {
+            movementInputValue = 1;
+        }
+    }
+    /// <summary>
+    /// checks for obstacles on the right and adjusts movement accordingly
+    /// </summary>
+    private void checkRightForObstacles()
+    {
+        if(obstacleRight != null && obstacleLeft == null)
+        {
+            if(obstacleRight == "Environment")
+            {
+                turnInputValue = 1;
+            }
+
+            if(obstacleRight == "Tank")
+            {
+                // check for health or more
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// specific cases, when multiple checks have to be taken into account
+    /// </summary>
+    private void groupedCheck()
+    {
+        if (obstacleRight != null && obstacleLeft != null) // when objects block the both sites at the same time
+        {
+            if(obstacleRight == "Environment" && obstacleLeft == "Environment")
+            {
+                turnInputValue = 1;
+            }
+        }
+
+        if (obstacleAhead == null && obstacleLeft == null && obstacleRight == null)
         {
             movementInputValue = 1;
             turnInputValue = 0;
         }
     }
+    #endregion
 
-    #region TriggerChecks
-    private void OnTriggerStay(Collider other) // just constantly checks if there is an enemy tank in range
+    #region AI Preset Behaviors
+
+    void behaviorStateManager()
     {
-        if(other.gameObject.tag == "Tank") 
+        if(target == null)
         {
-            enemyTankInRange = true;
+            Wandering();
+        }
+        if(target != null)
+        {
+            attackMode();
         }
     }
-    
 
-    private void OnTriggerExit(Collider other)
+    private void Wandering()
     {
-        if(other.gameObject.tag == "Tank")
+        tank.Move(movementInputValue);
+        tank.Turn(turnInputValue);
+    }
+
+    private void attackMode()
+    {
+        tank.Targetpoint = target.transform.position;
+        tank.TurnTurret();
+        Vector3 direction = target.transform.position - canon.position;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        if(Quaternion.Angle(canon.rotation, lookRotation) <= 1f)
         {
-            enemyTankInRange = false;
+            tank.Fire();
+            Debug.Log("could fire");
+            target = null;
         }
     }
+
+
 
     #endregion
 
-    private IEnumerator scanCycle()
-    {
-        yield return new WaitForSeconds(detectionCycleTime);
-        FindTargetInSurroundingArea();
-    }
-
-
-    private void CallInterceptPoint()
-    {
-        shooterPosition = shooter.transform.position;
-        targetPosition = target.transform.position;
-        shooterVelocity = shooter.GetComponent<Rigidbody>() ? shooter.GetComponent<Rigidbody>().velocity : Vector3.zero;
-        targetVelocity = target.GetComponent<Rigidbody>() ? target.GetComponent<Rigidbody>().velocity : Vector3.zero;
-        interceptPoint = FirstOrderIntercept
-        (
-            shooterPosition,
-            shooterVelocity,
-            shotSpeed,
-            targetPosition,
-            targetVelocity
-        );
-    }
 
 
 
 
 
-
-                                     //////////////////// Find closest enemy ////////////////////////
-                                                         #region Find closest target 
+    //////////////////// Find closest enemy ////////////////////////
+    #region Find closest target 
 
 
     /// <summary>
@@ -117,7 +208,7 @@ public class JannisBrain : MonoBehaviour
     /// </summary>
     private void FindTargetInSurroundingArea()
     {
-        if(enemyTankInRange == true && target == null)
+        if (target == null)
         {
             Collider[] col = Physics.OverlapSphere(transform.position, detectionRadius); // draw a sphere at desire point based on player pos + offset and desired radius of effect
             if (col.Length > 0)
@@ -141,8 +232,17 @@ public class JannisBrain : MonoBehaviour
         }
         StartCoroutine(scanCycle());
     }
+
+    private IEnumerator scanCycle()
+    {
+        yield return new WaitForSeconds(detectionCycleTime);
+        FindTargetInSurroundingArea();
+    }
+
     #endregion
 
+
+    ///////////////////// Gizmos //////////////////////////////////
     #region Show Gizmos
     void OnDrawGizmosSelected()
     {
@@ -154,7 +254,24 @@ public class JannisBrain : MonoBehaviour
 
 
 
-    //////////////////// Intercept point ////////////////////////
+    //////////////////// Intercept point /////////////////////////
+
+    private void CallInterceptPoint()
+    {
+        shooterPosition = shooter.transform.position;
+        targetPosition = target.transform.position;
+        shooterVelocity = shooter.GetComponent<Rigidbody>() ? shooter.GetComponent<Rigidbody>().velocity : Vector3.zero;
+        targetVelocity = target.GetComponent<Rigidbody>() ? target.GetComponent<Rigidbody>().velocity : Vector3.zero;
+        interceptPoint = FirstOrderIntercept
+        (
+            shooterPosition,
+            shooterVelocity,
+            shotSpeed,
+            targetPosition,
+            targetVelocity
+        );
+    }
+
 
     #region Intercept Point calculation
 
@@ -247,4 +364,3 @@ public class JannisBrain : MonoBehaviour
 
 
 }
-*/
