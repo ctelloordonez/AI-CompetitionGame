@@ -9,7 +9,7 @@ public class CarlosBrain : MonoBehaviour
     float movementInputValue;
     float turnInputValue;
     float lastTurn;
-
+    float randomTurn;
     float timeLastTurn;
 
     string obstacleLeft;
@@ -33,6 +33,7 @@ public class CarlosBrain : MonoBehaviour
     private void Update()
     {
         timeLastTurn += Time.deltaTime;
+        timeLastTurn = timeLastTurn % 60;
 
         tank.Move(movementInputValue);
         tank.Turn(turnInputValue);
@@ -40,6 +41,8 @@ public class CarlosBrain : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(timeLastTurn);
+
         obstacleLeft = tank.ObstacleLeft();
         obstacleAhead = tank.ObstacleAhead();
         obstacleRight = tank.ObstacleRight();
@@ -106,6 +109,7 @@ public class CarlosBrain : MonoBehaviour
                 {
                     movementInputValue = 1;
                     turnInputValue = 0;
+                    timeLastTurn = 0;
                 }
 
                 else                                    // If there is an obstacle left, then turn right
@@ -113,9 +117,9 @@ public class CarlosBrain : MonoBehaviour
                     if (!JustTurned())
                     {
                         turnInputValue = 0.5f;                                                   // turn right
-                        timeLastTurn = 0;
                     }
                     turnInputValue = 0.5f;
+                    timeLastTurn = 0;
                 }
             }
 
@@ -133,6 +137,17 @@ public class CarlosBrain : MonoBehaviour
                 movementInputValue = 1;
                 turnInputValue = 0;
             }
+        }
+
+        if(timeLastTurn > 5)
+        {
+            turnInputValue = randomTurn;
+            if(timeLastTurn > 5.5f)
+                timeLastTurn = 0;
+        }
+        else
+        {
+            randomTurn = Random.Range(-1, 1);
         }
 
         lastTurn = turnInputValue;
